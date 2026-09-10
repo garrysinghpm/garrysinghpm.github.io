@@ -72,6 +72,7 @@
 
   /* ---------- Hero ---------- */
   .hero{
+    position:relative;
     background:
       radial-gradient(680px 420px at 82% 8%, rgba(169,129,47,0.16), transparent 60%),
       linear-gradient(180deg, #182131 0%, var(--ink) 100%);
@@ -79,6 +80,14 @@
     padding:76px 0 0;
     overflow:hidden;
   }
+  /* 3D particle field sits behind hero content */
+  #hero-bg{
+    position:absolute; inset:0;
+    z-index:0;
+    pointer-events:none;
+  }
+  #hero-bg canvas{display:block; width:100% !important; height:100% !important;}
+  .hero > .wrap-wide{position:relative; z-index:1;}
   .hero-grid{
     display:grid;
     grid-template-columns:1fr 330px;
@@ -91,26 +100,9 @@
     width:100%; max-width:330px;
     opacity:0; animation:rise 0.9s ease forwards; animation-delay:0.5s;
   }
-  /* offset amber frame behind the portrait */
-  .hero-portrait-wrap::before{
-    content:"";
-    position:absolute; left:14px; top:14px; right:-14px; bottom:-14px;
-    border:1px solid var(--amber);
-    border-radius:12px;
-    opacity:0.55;
-  }
   .hero-portrait{
-    position:relative;
     width:100%; display:block;
     border-radius:12px;
-    box-shadow:0 30px 50px -22px rgba(0,0,0,0.65), 0 6px 16px -6px rgba(0,0,0,0.4);
-  }
-  .hero-portrait-wrap::after{
-    content:"";
-    position:absolute; inset:0;
-    border-radius:12px;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.14);
-    pointer-events:none;
   }
   @media (max-width:820px){
     .hero-grid{grid-template-columns:1fr; gap:40px;}
@@ -184,6 +176,16 @@
   .copy-btn.copied{border-color:#7FB88A; color:#7FB88A;}
   #live-clock{font-variant-numeric:tabular-nums;}
   @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal{
+    opacity:0; transform:translateY(18px);
+    transition:opacity 0.7s cubic-bezier(.22,.7,.3,1), transform 0.7s cubic-bezier(.22,.7,.3,1);
+  }
+  .reveal.in{opacity:1; transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
 
   /* ---------- Section shell ---------- */
   section{padding:64px 0;}
@@ -268,7 +270,19 @@
 
   /* ---------- Experience timeline ---------- */
   #experience{background:var(--paper);}
-  .timeline{border-left:2px solid var(--line); margin-left:4px;}
+  .timeline{
+    position:relative;
+    border-left:2px solid var(--line);
+    margin-left:4px;
+  }
+  /* amber progress line that fills as you scroll the section */
+  .timeline::after{
+    content:"";
+    position:absolute; left:-2px; top:0;
+    width:2px; height:var(--progress, 0%);
+    background:linear-gradient(180deg, var(--amber), var(--amber-deep));
+    transition:height 0.15s linear;
+  }
   .role{
     position:relative;
     padding:0 0 40px 32px;
@@ -278,8 +292,14 @@
     content:"";
     position:absolute; left:-8px; top:6px;
     width:14px; height:14px; border-radius:50%;
-    background:var(--paper); border:2px solid var(--amber);
-    box-shadow:0 2px 5px rgba(126,93,34,0.35);
+    background:var(--paper); border:2px solid var(--line);
+    z-index:1;
+    transition:border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+  }
+  .role.lit::before{
+    border-color:var(--amber);
+    box-shadow:0 2px 6px rgba(126,93,34,0.4), 0 0 0 4px rgba(169,129,47,0.14);
+    transform:scale(1.08);
   }
   .role .dates{
     font-size:13px; color:var(--amber-deep); font-weight:600; margin-bottom:5px;
@@ -446,6 +466,7 @@
 </header>
 
 <section class="hero">
+  <div id="hero-bg" aria-hidden="true"></div>
   <div class="wrap-wide">
     <div class="hero-grid">
       <div>
@@ -865,6 +886,108 @@
   }
   animate();
 })();
+
+/* ---- 3D particle field behind the hero ---- */
+(function(){
+  var mount = document.getElementById('hero-bg');
+  if(!mount || typeof THREE === 'undefined') return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var w = mount.clientWidth || window.innerWidth;
+  var h = mount.clientHeight || 600;
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(60, w/h, 0.1, 200);
+  camera.position.z = 34;
+
+  var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.setSize(w, h);
+  mount.appendChild(renderer.domElement);
+
+  // a slab of points with real depth — reads as 3D, stays quiet behind the text
+  var COUNT = 260;
+  var positions = new Float32Array(COUNT * 3);
+  var drift = [];
+  for(var i=0; i<COUNT; i++){
+    var x = (Math.random() - 0.5) * 90;
+    var y = (Math.random() - 0.5) * 52;
+    var z = (Math.random() - 0.5) * 46;
+    positions[i*3] = x; positions[i*3+1] = y; positions[i*3+2] = z;
+    drift.push({ vx:(Math.random()-0.5)*0.010, vy:(Math.random()-0.5)*0.008 });
+  }
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  var mat = new THREE.PointsMaterial({
+    color:0xA9812F, size:0.34, transparent:true, opacity:0.55, sizeAttenuation:true
+  });
+  var points = new THREE.Points(geo, mat);
+  scene.add(points);
+
+  // a sparser cooler-toned layer for depth separation
+  var COUNT2 = 150;
+  var pos2 = new Float32Array(COUNT2 * 3);
+  for(var j=0; j<COUNT2; j++){
+    pos2[j*3]   = (Math.random() - 0.5) * 100;
+    pos2[j*3+1] = (Math.random() - 0.5) * 58;
+    pos2[j*3+2] = (Math.random() - 0.5) * 50;
+  }
+  var geo2 = new THREE.BufferGeometry();
+  geo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+  var points2 = new THREE.Points(geo2, new THREE.PointsMaterial({
+    color:0x8FA6BC, size:0.22, transparent:true, opacity:0.32, sizeAttenuation:true
+  }));
+  scene.add(points2);
+
+  var targetX = 0, targetY = 0, curX = 0, curY = 0;
+  window.addEventListener('pointermove', function(e){
+    targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, {passive:true});
+
+  function resize(){
+    w = mount.clientWidth || w;
+    h = mount.clientHeight || h;
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  window.addEventListener('resize', resize);
+
+  var heroSection = document.querySelector('.hero');
+  function visible(){
+    if(!heroSection) return true;
+    var r = heroSection.getBoundingClientRect();
+    return r.bottom > 0;
+  }
+
+  function tick(){
+    requestAnimationFrame(tick);
+    if(!visible()) return;           // stop drawing once scrolled past — saves battery
+    if(!reduceMotion){
+      var p = geo.attributes.position;
+      for(var i=0; i<COUNT; i++){
+        p.array[i*3]   += drift[i].vx;
+        p.array[i*3+1] += drift[i].vy;
+        if(p.array[i*3] >  46) p.array[i*3] = -46;
+        if(p.array[i*3] < -46) p.array[i*3] =  46;
+        if(p.array[i*3+1] >  27) p.array[i*3+1] = -27;
+        if(p.array[i*3+1] < -27) p.array[i*3+1] =  27;
+      }
+      p.needsUpdate = true;
+      points2.rotation.y += 0.00042;
+      points.rotation.y  += 0.00028;
+    }
+    // gentle parallax toward the cursor
+    curX += (targetX - curX) * 0.035;
+    curY += (targetY - curY) * 0.035;
+    camera.position.x = curX * 2.6;
+    camera.position.y = -curY * 1.7;
+    camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  }
+  tick();
+})();
 </script>
 
 <script>
@@ -930,6 +1053,48 @@
       });
     }, { threshold:0.6 });
     statEls.forEach(function(el){ obs.observe(el); });
+  }
+
+  // ---- Scroll reveal on sections and cards ----
+  var revealTargets = [];
+  ['#about .about-body','.principle','.role','.case','.tags','.edu','.stats-strip','#projects .projects-head','.contact-form']
+    .forEach(function(sel){
+      Array.prototype.forEach.call(document.querySelectorAll(sel), function(el){ revealTargets.push(el); });
+    });
+  if(revealTargets.length && 'IntersectionObserver' in window){
+    revealTargets.forEach(function(el, i){
+      el.classList.add('reveal');
+      el.style.transitionDelay = ((i % 4) * 70) + 'ms';
+    });
+    var revObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target); }
+      });
+    }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+    revealTargets.forEach(function(el){ revObs.observe(el); });
+  }
+
+  // ---- Timeline progress line + dot activation ----
+  var timeline = document.querySelector('.timeline');
+  var roles = Array.prototype.slice.call(document.querySelectorAll('.role'));
+  if(timeline){
+    var onTimelineScroll = function(){
+      var rect = timeline.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var start = vh * 0.75;
+      var travelled = start - rect.top;
+      var pct = Math.max(0, Math.min(1, travelled / rect.height));
+      timeline.style.setProperty('--progress', (pct * 100) + '%');
+      var lineY = rect.top + rect.height * pct;
+      roles.forEach(function(r){
+        var rr = r.getBoundingClientRect();
+        if(rr.top <= lineY + 8) r.classList.add('lit');
+        else r.classList.remove('lit');
+      });
+    };
+    window.addEventListener('scroll', onTimelineScroll, {passive:true});
+    window.addEventListener('resize', onTimelineScroll);
+    onTimelineScroll();
   }
 
   // ---- Scroll-spy nav highlighting ----
