@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garry Singh — IT Project Manager &amp; Business Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131826;
+    --ink-soft:#454D5D;
+    --paper:#F2F3EE;
+    --paper-raised:#E7E9E1;
+    --line:#D2D5CA;
+    --amber:#A9812F;
+    --amber-deep:#7E5D22;
+    --teal:#2F5470;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--amber); color:var(--white);}
+  a{color:inherit;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 28px;}
+  .wrap-wide{max-width:1040px; margin:0 auto; padding:0 28px;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--amber-deep); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- Header / nav ---------- */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(238,240,236,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    font-family:'Fraunces',serif; font-weight:600; font-size:19px; letter-spacing:-0.01em;
+  }
+  nav ul{list-style:none; display:flex; gap:26px;}
+  nav a{
+    font-size:14px; text-decoration:none; color:var(--ink-soft);
+    border-bottom:1px solid transparent; padding-bottom:2px;
+    transition:color 0.18s ease, border-color 0.18s ease;
+  }
+  nav a:hover{color:var(--ink); border-bottom-color:var(--amber);}
+  nav a.active{color:var(--ink); border-bottom-color:var(--amber);}
+  @media (max-width:600px){ nav ul{gap:16px;} nav a{font-size:13px;} }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:
+      radial-gradient(680px 420px at 82% 8%, rgba(169,129,47,0.16), transparent 60%),
+      linear-gradient(180deg, #182131 0%, var(--ink) 100%);
+    color:var(--paper);
+    padding:76px 0 0;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1fr 320px;
+    align-items:center;
+    gap:20px;
+  }
+  .hero-visual{
+    width:100%; aspect-ratio:1/1; max-width:320px;
+    justify-self:center;
+    opacity:0; animation:rise 0.9s ease forwards; animation-delay:0.5s;
+    filter:drop-shadow(0 30px 40px rgba(0,0,0,0.45));
+  }
+  .hero-visual canvas{display:block; width:100% !important; height:100% !important; cursor:grab;}
+  .hero-visual-caption{
+    text-align:center; font-size:11.5px; color:#8B9081; margin-top:10px;
+    opacity:0; animation:rise 0.9s ease forwards; animation-delay:0.65s;
+  }
+  @media (max-width:820px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{max-width:230px; margin-top:10px;}
+  }
+
+  .stats-strip{
+    margin-top:56px;
+    border-top:1px solid rgba(255,255,255,0.12);
+    padding:26px 0;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:20px;
+  }
+  .stats-strip .stat{opacity:0; animation:rise 0.7s ease forwards;}
+  .stats-strip .stat:nth-child(1){animation-delay:0.55s;}
+  .stats-strip .stat:nth-child(2){animation-delay:0.62s;}
+  .stats-strip .stat:nth-child(3){animation-delay:0.69s;}
+  .stats-strip .stat:nth-child(4){animation-delay:0.76s;}
+  .stats-strip .stat b{
+    display:block; font-family:'Fraunces',serif; font-weight:500;
+    font-size:26px; color:var(--paper); letter-spacing:-0.01em;
+  }
+  .stats-strip .stat span{font-size:13px; color:#9EA391;}
+  @media (max-width:700px){ .stats-strip{grid-template-columns:repeat(2, 1fr);} }
+  .status-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:13.5px; color:#D9DCD3;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);
+    padding:6px 13px; border-radius:20px;
+    margin-bottom:30px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+    opacity:0; animation:rise 0.7s ease forwards; animation-delay:0.05s;
+  }
+  .status-dot{
+    width:7px; height:7px; border-radius:50%; background:#7FB88A; flex:none;
+    box-shadow:0 0 0 3px rgba(127,184,138,0.18);
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(34px, 5.4vw, 50px);
+    line-height:1.14;
+    letter-spacing:-0.01em;
+    max-width:15ch;
+    opacity:0; animation:rise 0.7s ease forwards; animation-delay:0.15s;
+  }
+  .hero p.lede{
+    margin-top:22px;
+    font-size:17px;
+    color:#C7CAC0;
+    max-width:52ch;
+    opacity:0; animation:rise 0.7s ease forwards; animation-delay:0.28s;
+  }
+  .hero-meta{
+    margin-top:34px;
+    display:flex; flex-wrap:wrap; gap:22px;
+    font-size:14px; color:#A9AD9F;
+    opacity:0; animation:rise 0.7s ease forwards; animation-delay:0.4s;
+  }
+  .hero-meta a{text-decoration:none; color:#D9DCD3; border-bottom:1px solid rgba(255,255,255,0.28);}
+  .hero-meta a:hover{border-bottom-color:var(--amber);}
+  .copy-btn{
+    font:inherit; font-size:14px; color:#D9DCD3;
+    background:none; border:1px solid rgba(255,255,255,0.24); border-radius:5px;
+    padding:3px 10px; cursor:pointer;
+    transition:border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  }
+  .copy-btn:hover{border-color:var(--amber); color:#fff; background:rgba(169,129,47,0.14);}
+  .copy-btn.copied{border-color:#7FB88A; color:#7FB88A;}
+  #live-clock{font-variant-numeric:tabular-nums;}
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Section shell ---------- */
+  section{padding:64px 0;}
+  section h2{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:26px;
+    letter-spacing:-0.01em;
+    margin-bottom:8px;
+  }
+  section .section-intro{
+    color:var(--ink-soft); font-size:15px; max-width:56ch; margin-bottom:34px;
+  }
+  /* small caps rail label used to head the asymmetric sections */
+  .rail{
+    font-size:12px; font-weight:600; color:var(--amber-deep);
+    letter-spacing:0.04em;
+  }
+  .split{
+    display:grid; grid-template-columns:150px 1fr; gap:36px; align-items:start;
+  }
+  @media (max-width:720px){ .split{grid-template-columns:1fr; gap:10px;} }
+
+  /* ---------- About ---------- */
+  #about{background:var(--white); border-bottom:1px solid var(--line);}
+  .about-body{font-size:16.5px; max-width:60ch; color:var(--ink-soft);}
+  .about-body p + p{margin-top:15px;}
+  .about-body strong{color:var(--ink); font-weight:600;}
+
+  /* ---------- Approach (dark band) ---------- */
+  #approach{
+    background:
+      radial-gradient(560px 300px at 15% 0%, rgba(47,84,112,0.30), transparent 62%),
+      var(--ink);
+    color:var(--paper);
+  }
+  #approach h2{color:var(--paper);}
+  #approach .section-intro{color:#9EA391;}
+  #approach .rail{color:var(--amber);}
+  .principles{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:2px;
+    background:rgba(255,255,255,0.10);
+    border:1px solid rgba(255,255,255,0.10);
+  }
+  @media (max-width:700px){ .principles{grid-template-columns:1fr;} }
+  .principle{
+    background:var(--ink);
+    padding:26px 24px;
+    transition:background 0.25s ease;
+  }
+  .principle:hover{background:#1B2436;}
+  .principle h4{
+    font-family:'Fraunces',serif; font-weight:500; font-size:18px;
+    color:var(--paper); margin-bottom:9px;
+  }
+  .principle h4::before{
+    content:""; display:block; width:26px; height:2px;
+    background:var(--amber); margin-bottom:13px;
+  }
+  .principle p{font-size:14.5px; color:#A9AD9F;}
+
+  /* ---------- Skills field ---------- */
+  #skills{background:var(--paper-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .tags{
+    display:flex; flex-wrap:wrap; gap:9px;
+  }
+  .tag{
+    font-size:13.5px;
+    padding:7px 13px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    color:var(--ink-soft);
+    background:var(--white);
+    box-shadow:0 1px 2px rgba(19,24,38,0.05);
+    transition:border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  }
+  .tag:hover{border-color:var(--amber); color:var(--ink); transform:translateY(-1px);}
+  .tag.lead{
+    background:var(--ink); color:var(--paper); border-color:var(--ink); font-weight:500;
+  }
+  .tag.lead:hover{color:#fff; border-color:var(--amber);}
+
+  /* ---------- Experience timeline ---------- */
+  #experience{background:var(--paper);}
+  .timeline{border-left:2px solid var(--line); margin-left:4px;}
+  .role{
+    position:relative;
+    padding:0 0 40px 32px;
+  }
+  .role:last-child{padding-bottom:4px;}
+  .role::before{
+    content:"";
+    position:absolute; left:-8px; top:6px;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--paper); border:2px solid var(--amber);
+    box-shadow:0 2px 5px rgba(126,93,34,0.35);
+  }
+  .role .dates{
+    font-size:13px; color:var(--amber-deep); font-weight:600; margin-bottom:5px;
+    font-variant-numeric:tabular-nums;
+  }
+  .role h3{
+    font-family:'Fraunces',serif; font-weight:500; font-size:21px; margin-bottom:3px;
+  }
+  .role .place{font-size:14px; color:var(--ink-soft); margin-bottom:13px;}
+  .role ul{padding-left:18px; font-size:15px; color:var(--ink-soft);}
+  .role ul li + li{margin-top:6px;}
+  .role.compact ul{columns:1;}
+
+  details.earlier{margin-top:6px;}
+  details.earlier summary{
+    cursor:pointer; font-size:14px; color:var(--teal); font-weight:600;
+    list-style:none;
+  }
+  details.earlier summary::-webkit-details-marker{display:none;}
+  details.earlier summary::before{content:"+ "; }
+  details.earlier[open] summary::before{content:"– ";}
+  details.earlier .role{padding-top:20px;}
+
+  /* ---------- Projects (dark editorial band) ---------- */
+  #projects{
+    background:
+      radial-gradient(620px 340px at 88% 4%, rgba(169,129,47,0.16), transparent 60%),
+      var(--ink);
+    color:var(--paper);
+  }
+  #projects h2{color:var(--paper);}
+  #projects .section-intro{color:#9EA391;}
+  #projects .rail{color:var(--amber);}
+  .case{
+    border-top:1px solid rgba(255,255,255,0.13);
+    padding:30px 0 32px;
+    display:grid;
+    grid-template-columns:150px 1fr;
+    gap:30px;
+    transition:background 0.25s ease;
+  }
+  .case:last-child{border-bottom:1px solid rgba(255,255,255,0.13);}
+  .case .when{
+    font-size:13px; color:var(--amber); font-weight:600; padding-top:6px;
+    font-variant-numeric:tabular-nums;
+  }
+  .case h3{
+    font-family:'Fraunces',serif; font-weight:500;
+    font-size:clamp(20px, 2.5vw, 25px);
+    color:var(--paper);
+    line-height:1.2; margin-bottom:16px;
+  }
+  .case dl{font-size:15px; color:#A9AD9F;}
+  .case dt{
+    font-weight:600; color:var(--paper); margin-top:12px;
+    font-size:12.5px; letter-spacing:0.03em;
+  }
+  .case dt:first-child{margin-top:0;}
+  .case dd{margin-top:3px;}
+  @media (max-width:620px){
+    .case{grid-template-columns:1fr; gap:8px; padding:24px 0 26px;}
+  }
+
+  /* ---------- Education (compact strip) ---------- */
+  #education{padding:34px 0; background:var(--paper);}
+  .edu{
+    display:flex; justify-content:space-between; align-items:baseline; gap:20px;
+  }
+  .edu .edu-left{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;}
+  .edu h3{font-family:'Fraunces',serif; font-weight:500; font-size:17px;}
+  .edu span{font-size:14px; color:var(--ink-soft); text-align:right;}
+  @media (max-width:640px){
+    .edu{flex-direction:column; gap:6px;}
+    .edu span{text-align:left;}
+  }
+
+  /* ---------- Contact / footer ---------- */
+  footer{
+    background:var(--ink); color:var(--paper); padding:56px 0 40px;
+  }
+  footer h2{color:var(--paper); font-family:'Fraunces',serif; font-weight:500; font-size:24px; margin-bottom:12px;}
+  footer p{color:#C7CAC0; font-size:15px; max-width:48ch; margin-bottom:26px;}
+  .contact-links{display:flex; flex-wrap:wrap; gap:14px;}
+  .contact-links a{
+    display:inline-block;
+    font-size:14px; text-decoration:none;
+    color:var(--paper);
+    border:1px solid rgba(255,255,255,0.24);
+    padding:10px 18px; border-radius:6px;
+    transition:border-color 0.15s ease, background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .contact-links a:hover{
+    border-color:var(--amber); background:rgba(182,122,42,0.14);
+    transform:translateY(-2px);
+    box-shadow:0 10px 18px -10px rgba(0,0,0,0.5);
+  }
+  footer .foot-note{margin-top:40px; font-size:12.5px; color:#8B8F81;}
+
+  /* ---------- Contact form ---------- */
+  .contact-form{
+    margin:8px 0 34px;
+    display:grid; gap:14px; max-width:480px;
+  }
+  .contact-form .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:520px){ .contact-form .row2{grid-template-columns:1fr;} }
+  .contact-form label{
+    font-size:12.5px; color:#A9AD9F; display:block; margin-bottom:6px;
+  }
+  .contact-form input, .contact-form textarea{
+    width:100%; font:inherit; font-size:14.5px; color:var(--paper);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.2); border-radius:6px;
+    padding:10px 12px;
+  }
+  .contact-form input:focus, .contact-form textarea:focus{
+    outline:none; border-color:var(--amber); background:rgba(255,255,255,0.08);
+  }
+  .contact-form textarea{resize:vertical; min-height:90px;}
+  .contact-form button{
+    font:inherit; font-size:14.5px; font-weight:600; color:var(--ink);
+    background:var(--amber); border:none; border-radius:6px;
+    padding:11px 22px; cursor:pointer; width:max-content;
+    transition:background 0.15s ease, transform 0.15s ease;
+  }
+  .contact-form button:hover{background:#C39A44; transform:translateY(-1px);}
+  .contact-form button:disabled{opacity:0.6; cursor:default; transform:none;}
+  .form-status{font-size:13.5px; margin-top:2px;}
+  .form-status.ok{color:#7FB88A;}
+  .form-status.err{color:#D98E7A;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Garry Singh</div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap-wide">
+    <div class="hero-grid">
+      <div>
+        <div class="status-tag"><span class="status-dot"></span>Open to IT Project Management &amp; Business Analysis roles</div>
+        <h1>I turn messy business problems into shipped, working systems.</h1>
+        <p class="lede">IT Project Manager and Business Analyst based in Brampton, Ontario — ten years moving from technical support into requirements, delivery, and digital transformation work across fintech, insurance, RPA, and telecom.</p>
+        <div class="hero-meta">
+          <span id="live-clock">Brampton, Ontario, Canada</span>
+          <a href="mailto:garrysinghpm@gmail.com" id="hero-email">garrysinghpm@gmail.com</a>
+          <button type="button" class="copy-btn" data-copy="garrysinghpm@gmail.com" aria-label="Copy email address">Copy email</button>
+          <a href="https://www.linkedin.com/in/garry-singh-a317a4266" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <div>
+        <div class="hero-visual" id="hero-visual" aria-hidden="true"></div>
+        <div class="hero-visual-caption">Every node a system. Every edge a record reconciled.</div>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><b>10+ yrs</b><span>in IT — support through delivery</span></div>
+      <div class="stat"><b>4+ yrs</b><span>as IT Project Manager</span></div>
+      <div class="stat"><b>4</b><span>end-to-end transformation projects led</span></div>
+      <div class="stat"><b>3</b><span>industries — fintech, insurance, telecom</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">About</div>
+      <div>
+        <div class="about-body">
+          <p>I manage IT initiatives end to end — from the first conversation about a business problem, through requirements, planning, development, testing, and implementation. Most of my work sits at the intersection of business analysis and delivery: <strong>I write the BRDs and user stories, but I also run the sprint planning and carry the risk log.</strong></p>
+          <p>Recent work has centered on digital transformation — AI-enabled onboarding, self-service platforms, automation, and large-scale data migration — for organizations that needed to modernize a process without breaking what already worked for their customers.</p>
+          <p>My path started in technical support, moved through business analysis, and led here. It means I understand both what a business actually needs and what it takes to build and ship it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="approach">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">Principles</div>
+      <div>
+        <h2>How I approach a project</h2>
+        <p class="section-intro">Patterns that show up across every initiative I've run, regardless of industry.</p>
+      </div>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <h4>Align before you build</h4>
+        <p>Get stakeholders agreeing on scope, risk tolerance, and priorities before development starts — not after the first change request. Fewer surprises later, less rework.</p>
+      </div>
+      <div class="principle">
+        <h4>Scope for the size of the problem</h4>
+        <p>Compare the cost, timeline, and maintenance burden of a few solution paths before committing to the biggest build available. The right-sized answer usually ships faster.</p>
+      </div>
+      <div class="principle">
+        <h4>Trace it to the edges</h4>
+        <p>Check every downstream system and reference table connected to a change, not just the fields named in the original request. That's usually where the real risk hides.</p>
+      </div>
+      <div class="principle">
+        <h4>Report status, not noise</h4>
+        <p>Give steering committees a clear, current view of what's validated versus pending, so decisions get made on the actual state of the project, not last week's version of it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">Career</div>
+      <div>
+        <h2>Where I've worked</h2>
+        <p class="section-intro">Ten years, four roles, one throughline — moving progressively closer to owning delivery.</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="role">
+        <div class="dates">Dec 2021 – Present</div>
+        <h3>IT Project Manager</h3>
+        <div class="place">Akom Infotech Ltd. — Brampton, Canada</div>
+        <ul>
+          <li>Manage IT initiatives from business problem identification through planning, development, testing, implementation, and closure.</li>
+          <li>Work with stakeholders, developers, QA, and technical teams to define scope, requirements, priorities, and deliverables.</li>
+          <li>Develop BRDs, FRDs, user stories, acceptance criteria, process flows, UAT plans, and status reporting.</li>
+          <li>Coordinate Agile delivery — sprint planning, backlog refinement, reviews, retrospectives.</li>
+          <li>Lead digital transformation initiatives spanning AI, automation, CRM, and data migration.</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <div class="dates">Sep 2019 – Nov 2021</div>
+        <h3>Business Analyst</h3>
+        <div class="place">Akom Infotech Ltd. — Brampton, Canada</div>
+        <ul>
+          <li>Gathered and analyzed business and system requirements for technology initiatives.</li>
+          <li>Created requirements, user stories, acceptance criteria, and UAT scenarios; performed gap analysis.</li>
+          <li>Supported application enhancements, testing, and post-production activities.</li>
+        </ul>
+      </div>
+
+      <details class="earlier">
+        <summary>Earlier roles — technical &amp; application support, 2016–2019</summary>
+
+        <div class="role compact">
+          <div class="dates">Mar 2018 – Jul 2019</div>
+          <h3>Application Support Analyst</h3>
+          <div class="place">Tech Mahindra — Mohali, Punjab, India</div>
+          <ul>
+            <li>Supported business applications and investigated incidents, defects, and operational issues.</li>
+            <li>Assisted with requirements analysis for centralized customer information and CRM capabilities.</li>
+          </ul>
+        </div>
+
+        <div class="role compact">
+          <div class="dates">Aug 2016 – Feb 2018</div>
+          <h3>Technical Support Analyst</h3>
+          <div class="place">Tech Mahindra — Mohali, Punjab, India</div>
+          <ul>
+            <li>Provided technical support across hardware, software, application, and system issues.</li>
+            <li>Built the operational grounding — business processes, user needs, application behavior — everything since has built on.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">Work</div>
+      <div>
+        <h2>What I've Delivered</h2>
+        <p class="section-intro">Four initiatives delivered as IT Project Manager, each framed the way I scope real work — problem, solution, goal.</p>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="when">Dec 2021 – May 2022</div>
+      <div>
+        <h3>AI Client Onboarding Automation — Wealthsimple</h3>
+        <dl>
+          <dt>Problem</dt>
+          <dd>New clients had to provide financial information and goals while figuring out which products fit them, often requiring manual guidance.</dd>
+          <dt>Solution</dt>
+          <dd>An AI-powered onboarding platform: clients enter income, goals, and preferences, and the system analyzes the profile to recommend relevant products.</dd>
+          <dt>Goal</dt>
+          <dd>Automate onboarding, personalize recommendations, and cut manual support effort.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="when">Jun 2022 – Feb 2023</div>
+      <div>
+        <h3>Insurance Policy Management Dashboard</h3>
+        <dl>
+          <dt>Problem</dt>
+          <dd>Customers had to contact an agent for routine policy changes or information updates.</dd>
+          <dt>Solution</dt>
+          <dd>A self-service dashboard for viewing and managing policies, updating beneficiaries, and maintaining policy information.</dd>
+          <dt>Goal</dt>
+          <dd>Give customers control while reducing administrative load and support volume.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="when">Mar 2023 – Jun 2023</div>
+      <div>
+        <h3>Invoice Processing Bot</h3>
+        <dl>
+          <dt>Problem</dt>
+          <dd>Vendor invoices arrived as PDFs by email and were keyed into the accounting system by hand, creating delays and errors.</dd>
+          <dt>Solution</dt>
+          <dd>An automation bot that receives the PDF, extracts invoice data, validates it, and enters it into the accounting system.</dd>
+          <dt>Goal</dt>
+          <dd>Reduce manual data entry, processing time, and error rate.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="when">Jul 2023 – Present</div>
+      <div>
+        <h3>TeleConnect Customer 360 Migration</h3>
+        <dl>
+          <dt>Problem</dt>
+          <dd>Customer data spread across legacy systems, producing duplicate, outdated, or missing records.</dd>
+          <dt>Solution</dt>
+          <dd>A migration and validation platform that extracts, cleans, matches, transforms, and reconciles customer records into one CRM.</dd>
+          <dt>Goal</dt>
+          <dd>One accurate 360° customer record, better data quality, and a complete view for every employee who needs it.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">Skills</div>
+      <div>
+        <h2>What I work with</h2>
+        <p class="section-intro">Core strengths first, then the wider toolkit built up across delivery, analysis, and support.</p>
+      </div>
+    </div>
+    <div class="tags">
+      <span class="tag lead">Project Management</span>
+      <span class="tag lead">Stakeholder Management</span>
+      <span class="tag lead">Risk Management</span>
+      <span class="tag lead">Change Management</span>
+      <span class="tag lead">Agile Project Management</span>
+      <span class="tag">Scrum</span>
+      <span class="tag">Waterfall</span>
+      <span class="tag">SDLC &amp; PMLC</span>
+      <span class="tag">Digital Transformation</span>
+      <span class="tag">Requirements Gathering &amp; Analysis</span>
+      <span class="tag">Project Planning &amp; Scheduling</span>
+      <span class="tag">Scope Management</span>
+      <span class="tag">Business Process Mapping</span>
+      <span class="tag">Gap Analysis</span>
+      <span class="tag">BRD / FRD</span>
+      <span class="tag">User Stories &amp; Acceptance Criteria</span>
+      <span class="tag">UAT &amp; Test Coordination</span>
+      <span class="tag">Sprint Planning</span>
+      <span class="tag">Backlog &amp; Release Planning</span>
+      <span class="tag">Requirements Traceability</span>
+      <span class="tag">Status Reporting</span>
+      <span class="tag">AI &amp; Automation</span>
+      <span class="tag">RPA</span>
+      <span class="tag">CRM Solutions</span>
+      <span class="tag">Data Migration &amp; Validation</span>
+      <span class="tag">Process Improvement</span>
+      <span class="tag">Application Support</span>
+      <span class="tag">Jira / Confluence</span>
+      <span class="tag">Microsoft Office / Excel</span>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">Education</div>
+      <div class="edu">
+        <div class="edu-left">
+          <h3>BSc — Physics, Chemistry &amp; Mathematics</h3>
+        </div>
+        <span>Punjabi University, Patiala, India — 2013–2016</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2>Let's talk</h2>
+    <p>Open to IT Project Management and Technical Project Management roles across Canada. Send a message directly — it goes straight to my inbox.</p>
+
+    <!-- To activate: sign up free at formspree.io, create a form, and replace YOUR_FORM_ID below with the ID they give you. -->
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="row2">
+        <div>
+          <label for="cf-name">Name</label>
+          <input type="text" id="cf-name" name="name" required>
+        </div>
+        <div>
+          <label for="cf-email">Your email</label>
+          <input type="email" id="cf-email" name="_replyto" required>
+        </div>
+      </div>
+      <div>
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" required></textarea>
+      </div>
+      <button type="submit">Send message</button>
+      <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="contact-links">
+      <a href="mailto:garrysinghpm@gmail.com">garrysinghpm@gmail.com</a>
+      <a href="https://www.linkedin.com/in/garry-singh-a317a4266" target="_blank" rel="noopener">LinkedIn profile</a>
+    </div>
+    <div class="foot-note">Garry Singh — Brampton, Ontario, Canada</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var mount = document.getElementById('hero-visual');
+  if(!mount || typeof THREE === 'undefined') return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var width = mount.clientWidth || 320;
+  var height = mount.clientHeight || 320;
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, width/height, 0.1, 100);
+  camera.position.set(0, 0, 6.2);
+
+  var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(width, height);
+  mount.appendChild(renderer.domElement);
+
+  // group holding the whole network so we can rotate + tilt it together
+  var group = new THREE.Group();
+  scene.add(group);
+
+  // core node network: icosahedron vertices as nodes, edges as connecting lines
+  var core = new THREE.IcosahedronGeometry(1.9, 1);
+  var edgesGeo = new THREE.EdgesGeometry(core);
+  var edgeMat = new THREE.LineBasicMaterial({color:0x2F5470, transparent:true, opacity:0.55});
+  var edges = new THREE.LineSegments(edgesGeo, edgeMat);
+  group.add(edges);
+
+  // nodes at each unique vertex
+  var posAttr = core.attributes.position;
+  var seen = {};
+  var nodeGeo = new THREE.SphereGeometry(0.052, 12, 12);
+  var nodeMatAmber = new THREE.MeshStandardMaterial({color:0xA9812F, emissive:0x4A3611, roughness:0.35, metalness:0.3});
+  var nodeMatPaper = new THREE.MeshStandardMaterial({color:0xF2F3EE, emissive:0x1E2230, roughness:0.4, metalness:0.15});
+  var nodeCount = 0;
+  for(var i=0; i<posAttr.count; i++){
+    var x = posAttr.getX(i), y = posAttr.getY(i), z = posAttr.getZ(i);
+    var key = x.toFixed(2)+','+y.toFixed(2)+','+z.toFixed(2);
+    if(seen[key]) continue;
+    seen[key] = true;
+    var mat = (nodeCount % 4 === 0) ? nodeMatAmber : nodeMatPaper;
+    var node = new THREE.Mesh(nodeGeo, mat);
+    node.position.set(x, y, z);
+    group.add(node);
+    nodeCount++;
+  }
+
+  // faint inner sphere for depth / mass
+  var innerMat = new THREE.MeshStandardMaterial({color:0x131826, roughness:0.9, metalness:0.1, transparent:true, opacity:0.35});
+  var inner = new THREE.Mesh(new THREE.IcosahedronGeometry(1.75, 1), innerMat);
+  group.add(inner);
+
+  var key1 = new THREE.PointLight(0xffffff, 1.1, 20);
+  key1.position.set(4, 3, 5);
+  scene.add(key1);
+  var key2 = new THREE.PointLight(0xA9812F, 0.6, 20);
+  key2.position.set(-4, -2, 3);
+  scene.add(key2);
+  scene.add(new THREE.AmbientLight(0x8890a0, 0.55));
+
+  var targetRotX = 0.15, targetRotY = 0;
+  var curRotX = 0.15, curRotY = 0;
+  var dragging = false, lastX = 0, lastY = 0;
+
+  function pointerToTarget(dx, dy){
+    targetRotY += dx * 0.006;
+    targetRotX += dy * 0.006;
+    targetRotX = Math.max(-0.9, Math.min(0.9, targetRotX));
+  }
+
+  mount.addEventListener('pointerdown', function(e){
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    mount.querySelector('canvas').style.cursor = 'grabbing';
+  });
+  window.addEventListener('pointerup', function(){
+    dragging = false;
+    var c = mount.querySelector('canvas'); if(c) c.style.cursor = 'grab';
+  });
+  window.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    pointerToTarget(e.clientX - lastX, e.clientY - lastY);
+    lastX = e.clientX; lastY = e.clientY;
+  });
+
+  function onResize(){
+    width = mount.clientWidth || width;
+    height = mount.clientHeight || height;
+    camera.aspect = width/height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  }
+  window.addEventListener('resize', onResize);
+
+  var autoSpin = reduceMotion ? 0 : 0.0028;
+
+  // subtle scroll-linked tilt so the visual feels connected to the page, not just decorative
+  var scrollTilt = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY || 0;
+    scrollTilt = Math.max(-0.25, Math.min(0.25, y * 0.0008));
+  }, {passive:true});
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if(!dragging){ targetRotY += autoSpin; }
+    curRotX += (targetRotX + scrollTilt - curRotX) * 0.06;
+    curRotY += (targetRotY - curRotY) * 0.06;
+    group.rotation.x = curRotX;
+    group.rotation.y = curRotY;
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+
+<script>
+(function(){
+  // ---- Live local clock (Brampton, Ontario = America/Toronto) ----
+  var clockEl = document.getElementById('live-clock');
+  if(clockEl){
+    function tick(){
+      var now = new Date();
+      var timeStr = now.toLocaleTimeString('en-CA', { timeZone:'America/Toronto', hour:'2-digit', minute:'2-digit' });
+      clockEl.textContent = 'Brampton, Ontario — ' + timeStr + ' local';
+    }
+    tick();
+    setInterval(tick, 15000);
+  }
+
+  // ---- Copy email button ----
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy');
+      var done = function(){
+        var original = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.textContent = original; btn.classList.remove('copied'); }, 1800);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(function(){
+          window.location.href = 'mailto:' + text;
+        });
+      } else {
+        window.location.href = 'mailto:' + text;
+      }
+    });
+  });
+
+  // ---- Animated count-up stats, triggered once when scrolled into view ----
+  var statEls = document.querySelectorAll('.stats-strip .stat b');
+  if(statEls.length && 'IntersectionObserver' in window){
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var seen = new WeakSet();
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting || seen.has(entry.target)) return;
+        seen.add(entry.target);
+        var el = entry.target;
+        var raw = el.textContent.trim();
+        var match = raw.match(/^(\d+)(.*)$/);
+        if(!match){ return; }
+        var target = parseInt(match[1], 10);
+        var suffix = match[2];
+        if(reduceMotion){ el.textContent = target + suffix; return; }
+        var start = null, duration = 900;
+        function step(ts){
+          if(start === null) start = ts;
+          var progress = Math.min((ts - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var current = Math.round(target * eased);
+          el.textContent = current + suffix;
+          if(progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold:0.6 });
+    statEls.forEach(function(el){ obs.observe(el); });
+  }
+
+  // ---- Scroll-spy nav highlighting ----
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav a[href^="#"]'));
+  var watched = navLinks.map(function(a){
+    return { link:a, el:document.querySelector(a.getAttribute('href')) };
+  }).filter(function(x){ return x.el; });
+  if(watched.length){
+    var onScrollSpy = function(){
+      var pos = window.scrollY + 140;
+      var current = null;
+      watched.forEach(function(x){
+        if(x.el.offsetTop <= pos) current = x;
+      });
+      navLinks.forEach(function(a){ a.classList.remove('active'); });
+      if(current) current.link.classList.add('active');
+    };
+    window.addEventListener('scroll', onScrollSpy, {passive:true});
+    onScrollSpy();
+  }
+
+  // ---- Working contact form (Formspree) ----
+  var form = document.getElementById('contact-form');
+  if(form){
+    var status = document.getElementById('cf-status');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var action = form.getAttribute('action') || '';
+      if(action.indexOf('YOUR_FORM_ID') !== -1){
+        status.textContent = 'Form isn\'t connected yet — set up a free Formspree endpoint to activate this (see setup note).';
+        status.className = 'form-status err';
+        return;
+      }
+      var btn = form.querySelector('button[type="submit"]');
+      var originalLabel = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Sending…';
+      status.textContent = ''; status.className = 'form-status';
+      fetch(action, {
+        method:'POST',
+        body:new FormData(form),
+        headers:{ 'Accept':'application/json' },
+      }).then(function(res){
+        if(res.ok){
+          status.textContent = 'Thanks — message sent. I\'ll reply by email soon.';
+          status.className = 'form-status ok';
+          form.reset();
+        } else {
+          status.textContent = 'Something went wrong — please email me directly instead.';
+          status.className = 'form-status err';
+        }
+      }).catch(function(){
+        status.textContent = 'Something went wrong — please email me directly instead.';
+        status.className = 'form-status err';
+      }).finally(function(){
+        btn.disabled = false; btn.textContent = originalLabel;
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
