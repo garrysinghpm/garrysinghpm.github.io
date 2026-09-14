@@ -380,16 +380,18 @@
     .case{grid-template-columns:1fr; gap:8px; padding:24px 0 26px;}
   }
 
-  /* ---------- Education (compact strip) ---------- */
+  /* ---------- Credentials (compact strip) ---------- */
   #education{padding:34px 0; background:var(--paper);}
   .edu{
     display:flex; justify-content:space-between; align-items:baseline; gap:20px;
+    padding:11px 0;
   }
+  .edu + .edu{border-top:1px solid var(--line);}
   .edu .edu-left{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;}
   .edu h3{font-family:'Fraunces',serif; font-weight:500; font-size:17px;}
   .edu span{font-size:14px; color:var(--ink-soft); text-align:right;}
   @media (max-width:640px){
-    .edu{flex-direction:column; gap:6px;}
+    .edu{flex-direction:column; gap:4px;}
     .edu span{text-align:left;}
   }
 
@@ -488,7 +490,7 @@
     </div>
     <div class="stats-strip">
       <div class="stat"><b>10+ yrs</b><span>in IT — support through delivery</span></div>
-      <div class="stat"><b>4+ yrs</b><span>as IT Project Manager</span></div>
+      <div class="stat"><b>5+ yrs</b><span>as IT Project Manager</span></div>
       <div class="stat"><b>4</b><span>end-to-end transformation projects led</span></div>
       <div class="stat"><b>3</b><span>industries — fintech, insurance, telecom</span></div>
     </div>
@@ -546,13 +548,13 @@
       <div class="rail">Career</div>
       <div>
         <h2>Where I've worked</h2>
-        <p class="section-intro">Ten years, four roles, one throughline — moving progressively closer to owning delivery.</p>
+        <p class="section-intro">Ten years, five roles, one throughline — moving progressively closer to owning delivery.</p>
       </div>
     </div>
 
     <div class="timeline">
       <div class="role">
-        <div class="dates">Dec 2021 – Present</div>
+        <div class="dates">Dec 2020 – Present</div>
         <h3>IT Project Manager</h3>
         <div class="place">Akom Infotech Ltd. — Brampton, Canada</div>
         <ul>
@@ -565,7 +567,7 @@
       </div>
 
       <div class="role">
-        <div class="dates">Sep 2019 – Nov 2021</div>
+        <div class="dates">Sep 2019 – Nov 2020</div>
         <h3>Business Analyst</h3>
         <div class="place">Akom Infotech Ltd. — Brampton, Canada</div>
         <ul>
@@ -576,10 +578,10 @@
       </div>
 
       <details class="earlier">
-        <summary>Earlier roles — technical &amp; application support, 2016–2019</summary>
+        <summary>Earlier roles — technical &amp; application support, Tech Mahindra 2016–2019</summary>
 
         <div class="role compact">
-          <div class="dates">Mar 2018 – Jul 2019</div>
+          <div class="dates">Aug 2018 – Aug 2019</div>
           <h3>Application Support Analyst</h3>
           <div class="place">Tech Mahindra — Mohali, Punjab, India</div>
           <ul>
@@ -589,7 +591,17 @@
         </div>
 
         <div class="role compact">
-          <div class="dates">Aug 2016 – Feb 2018</div>
+          <div class="dates">Aug 2017 – Jul 2018</div>
+          <h3>Senior Technical Support Analyst</h3>
+          <div class="place">Tech Mahindra — Mohali, Punjab, India</div>
+          <ul>
+            <li>Provided advanced technical support and coordinated escalations across technical teams.</li>
+            <li>Documented AS-IS processes, helped define TO-BE processes, and translated operational challenges into technical requirements.</li>
+          </ul>
+        </div>
+
+        <div class="role compact">
+          <div class="dates">Aug 2016 – Jul 2017</div>
           <h3>Technical Support Analyst</h3>
           <div class="place">Tech Mahindra — Mohali, Punjab, India</div>
           <ul>
@@ -619,7 +631,7 @@
     </div>
 
     <div class="case">
-      <div class="when">Dec 2021 – May 2022</div>
+      <div class="when">Dec 2020 – May 2021</div>
       <div>
         <h3>AI Client Onboarding Automation — Wealthsimple</h3>
         <dl>
@@ -634,7 +646,7 @@
     </div>
 
     <div class="case">
-      <div class="when">Jun 2022 – Feb 2023</div>
+      <div class="when">Jun 2021 – Feb 2022</div>
       <div>
         <h3>Insurance Policy Management Dashboard</h3>
         <dl>
@@ -649,7 +661,7 @@
     </div>
 
     <div class="case">
-      <div class="when">Mar 2023 – Jun 2023</div>
+      <div class="when">Mar 2022 – Jun 2022</div>
       <div>
         <h3>Invoice Processing Bot</h3>
         <dl>
@@ -664,7 +676,7 @@
     </div>
 
     <div class="case">
-      <div class="when">Jul 2023 – Present</div>
+      <div class="when">Jul 2022 – Present</div>
       <div>
         <h3>TeleConnect Customer 360 Migration</h3>
         <dl>
@@ -690,6 +702,8 @@
       </div>
     </div>
     <div class="tags">
+      <span class="tag lead">PMP</span>
+      <span class="tag lead">Certified ScrumMaster</span>
       <span class="tag lead">Project Management</span>
       <span class="tag lead">Stakeholder Management</span>
       <span class="tag lead">Risk Management</span>
@@ -726,12 +740,26 @@
 <section id="education">
   <div class="wrap">
     <div class="split">
-      <div class="rail">Education</div>
-      <div class="edu">
-        <div class="edu-left">
-          <h3>BSc — Physics, Chemistry &amp; Mathematics</h3>
+      <div class="rail">Credentials</div>
+      <div>
+        <div class="edu">
+          <div class="edu-left">
+            <h3>Project Management Professional (PMP)</h3>
+          </div>
+          <span>Project Management Institute</span>
         </div>
-        <span>Punjabi University, Patiala, India — 2013–2016</span>
+        <div class="edu">
+          <div class="edu-left">
+            <h3>Certified ScrumMaster (CSM)</h3>
+          </div>
+          <span>Scrum Alliance</span>
+        </div>
+        <div class="edu">
+          <div class="edu-left">
+            <h3>Bachelor of Science</h3>
+          </div>
+          <span>Punjabi University, Patiala, India — 2013–2016</span>
+        </div>
       </div>
     </div>
   </div>
