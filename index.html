@@ -36,6 +36,21 @@
   /* focus visibility */
   a:focus-visible, button:focus-visible{outline:2px solid var(--amber-deep); outline-offset:3px;}
 
+  /* ---------- Live scroll progress + cursor glow ---------- */
+  #scroll-progress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:linear-gradient(90deg, var(--amber), var(--teal));
+    z-index:60; pointer-events:none;
+  }
+  #cursor-glow{
+    position:fixed; top:0; left:0; width:360px; height:360px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(169,129,47,0.14), transparent 70%);
+    pointer-events:none; z-index:4; mix-blend-mode:multiply;
+    transform:translate(-50%,-50%); opacity:0; transition:opacity 0.3s ease;
+  }
+  @media (hover:none){ #cursor-glow{display:none;} }
+
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
   }
@@ -141,7 +156,29 @@
   .status-dot{
     width:7px; height:7px; border-radius:50%; background:#7FB88A; flex:none;
     box-shadow:0 0 0 3px rgba(127,184,138,0.18);
+    animation:statusPulse 2.2s ease-in-out infinite;
   }
+  @keyframes statusPulse{
+    0%, 100%{box-shadow:0 0 0 3px rgba(127,184,138,0.18);}
+    50%{box-shadow:0 0 0 7px rgba(127,184,138,0.06);}
+  }
+  .hero-ctas{
+    display:flex; flex-wrap:wrap; gap:12px; margin-top:30px;
+    opacity:0; animation:rise 0.7s ease forwards; animation-delay:0.46s;
+  }
+  .btn-primary, .btn-secondary{
+    font:inherit; font-size:14.5px; font-weight:600; text-decoration:none;
+    padding:11px 22px; border-radius:7px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-primary{
+    color:var(--ink); background:var(--amber); border:1px solid var(--amber);
+  }
+  .btn-primary:hover{background:#C39A44; transform:translateY(-1px); box-shadow:0 10px 22px rgba(169,129,47,0.3);}
+  .btn-secondary{
+    color:var(--paper); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.24);
+  }
+  .btn-secondary:hover{border-color:var(--amber); transform:translateY(-1px); background:rgba(169,129,47,0.1);}
   .hero h1{
     font-family:'Fraunces',serif;
     font-weight:500;
@@ -151,6 +188,17 @@
     max-width:15ch;
     opacity:0; animation:rise 0.7s ease forwards; animation-delay:0.15s;
   }
+  .role-rotator{
+    margin-top:16px; font-family:'Fraunces',serif; font-weight:500;
+    font-size:clamp(16px, 2vw, 19px); color:var(--amber);
+    min-height:1.4em; display:flex; align-items:center;
+    opacity:0; animation:rise 0.7s ease forwards; animation-delay:0.22s;
+  }
+  .role-rotator .cursor-blink{
+    display:inline-block; width:2px; height:1.1em; background:var(--amber);
+    margin-left:3px; animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{opacity:0;} }
   .hero p.lede{
     margin-top:22px;
     font-size:17px;
@@ -208,6 +256,25 @@
     display:grid; grid-template-columns:150px 1fr; gap:36px; align-items:start;
   }
   @media (max-width:720px){ .split{grid-template-columns:1fr; gap:10px;} }
+
+  /* ---------- Value proposition ---------- */
+  #valueprop{background:var(--white); border-bottom:1px solid var(--line); padding:52px 0;}
+  .vp-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; margin-top:8px;
+  }
+  @media (max-width:760px){ .vp-grid{grid-template-columns:1fr;} }
+  .vp-card{
+    border:1px solid var(--line); border-radius:12px; padding:22px 22px 24px;
+    background:var(--paper-raised);
+    transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .vp-card:hover{transform:translateY(-3px); box-shadow:0 14px 26px rgba(19,24,38,0.08); border-color:var(--amber);}
+  .vp-card .vp-num{
+    font-family:'Fraunces',serif; font-size:13px; font-weight:600; color:var(--amber-deep);
+    letter-spacing:0.03em; margin-bottom:10px; display:block;
+  }
+  .vp-card h4{font-size:16.5px; margin-bottom:8px;}
+  .vp-card p{font-size:14px; color:var(--ink-soft);}
 
   /* ---------- About ---------- */
   #about{background:var(--white); border-bottom:1px solid var(--line);}
@@ -350,35 +417,49 @@
     .hero-visual{max-width:150px; justify-self:start;}
     .hero-visual-caption{text-align:left;}
   }
-  .case{
-    border-top:1px solid rgba(255,255,255,0.13);
-    padding:30px 0 32px;
-    display:grid;
-    grid-template-columns:150px 1fr;
-    gap:30px;
-    transition:background 0.25s ease;
+  .case-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:22px; margin-top:10px;
   }
-  .case:last-child{border-bottom:1px solid rgba(255,255,255,0.13);}
+  @media (max-width:820px){ .case-grid{grid-template-columns:1fr;} }
+  .case{
+    position:relative;
+    border:1px solid rgba(255,255,255,0.14); border-radius:16px;
+    padding:26px 26px 28px;
+    background:
+      radial-gradient(280px 200px at var(--tx,50%) var(--ty,0%), rgba(169,129,47,0.15), transparent 65%),
+      rgba(255,255,255,0.025);
+    transition:transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    will-change:transform;
+  }
+  .case:hover{border-color:rgba(169,129,47,0.5); box-shadow:0 18px 38px rgba(0,0,0,0.35);}
+  .case-badges{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
   .case .when{
-    font-size:13px; color:var(--amber); font-weight:600; padding-top:6px;
-    font-variant-numeric:tabular-nums;
+    display:inline-block; font-size:12px; color:var(--amber); font-weight:600;
+    padding:4px 11px; border:1px solid rgba(169,129,47,0.4); border-radius:20px;
+    font-variant-numeric:tabular-nums; margin-bottom:0;
+  }
+  .progress-badge{
+    display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:#7FB88A;
+    padding:4px 11px; border-radius:20px; border:1px solid rgba(127,184,138,0.4); background:rgba(127,184,138,0.08);
+  }
+  .client-badge{
+    display:inline-block; font-family:'Fraunces',serif; font-weight:500; font-size:12.5px;
+    padding:4px 11px; border-radius:20px; letter-spacing:0.01em;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); color:#D9DCD3;
   }
   .case h3{
     font-family:'Fraunces',serif; font-weight:500;
-    font-size:clamp(20px, 2.5vw, 25px);
+    font-size:clamp(19px, 2.2vw, 22px);
     color:var(--paper);
-    line-height:1.2; margin-bottom:16px;
+    line-height:1.25; margin-bottom:16px;
   }
-  .case dl{font-size:15px; color:#A9AD9F;}
+  .case dl{font-size:14.5px; color:#A9AD9F;}
   .case dt{
     font-weight:600; color:var(--paper); margin-top:12px;
-    font-size:12.5px; letter-spacing:0.03em;
+    font-size:12px; letter-spacing:0.03em;
   }
   .case dt:first-child{margin-top:0;}
   .case dd{margin-top:3px;}
-  @media (max-width:620px){
-    .case{grid-template-columns:1fr; gap:8px; padding:24px 0 26px;}
-  }
 
   /* ---------- Credentials (compact strip) ---------- */
   #education{padding:34px 0; background:var(--paper);}
@@ -417,6 +498,77 @@
   }
   footer .foot-note{margin-top:40px; font-size:12.5px; color:#8B8F81;}
 
+  /* ---------- Case Studies (interactive) ---------- */
+  #casestudies{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(620px 380px at 14% 0%, rgba(47,84,112,0.38), transparent 62%),
+      var(--ink);
+    color:var(--paper);
+  }
+  #casestudies::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    -webkit-mask-image:radial-gradient(760px 440px at 50% 0%, black, transparent 75%);
+    mask-image:radial-gradient(760px 440px at 50% 0%, black, transparent 75%);
+  }
+  #casestudies h2{color:var(--paper);}
+  #casestudies .section-intro{color:#9EA391;}
+  #casestudies .rail{color:var(--amber);}
+  .cs-tabs{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 30px; position:relative; z-index:1;}
+  .cs-tab{
+    font:inherit; font-size:13.5px; color:#A9AD9F;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:20px; padding:8px 16px; cursor:pointer;
+    transition:color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .cs-tab:hover{color:var(--paper); border-color:rgba(169,129,47,0.55);}
+  .cs-tab.active{
+    color:var(--ink); background:var(--amber); border-color:var(--amber);
+    box-shadow:0 0 0 4px rgba(169,129,47,0.16), 0 8px 20px rgba(169,129,47,0.25);
+  }
+  .cs-panel{
+    position:relative; z-index:1;
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:14px; padding:32px;
+    background:
+      radial-gradient(360px 240px at var(--mx,50%) var(--my,0%), rgba(169,129,47,0.15), transparent 65%),
+      rgba(255,255,255,0.025);
+    display:none;
+  }
+  .cs-panel.active{display:block; animation:csIn 0.5s ease forwards;}
+  @keyframes csIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  .cs-panel-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:6px;}
+  .cs-panel h3{font-family:'Fraunces',serif; font-weight:500; font-size:clamp(20px,2.4vw,24px);}
+  .cs-panel .cs-role{font-size:12.5px; color:var(--amber);}
+  .cs-method{font-size:14px; color:#C7CAC0; margin:16px 0 24px; max-width:64ch; border-left:2px solid var(--amber); padding-left:14px;}
+  .cs-timeline-mini{display:flex; flex-wrap:wrap; gap:0; margin:0 0 26px;}
+  .cs-node{flex:1 1 140px; position:relative; padding:0 14px 0 0;}
+  .cs-node::before{
+    content:""; position:absolute; left:0; top:5px; width:9px; height:9px; border-radius:50%;
+    background:var(--amber); box-shadow:0 0 0 4px rgba(169,129,47,0.2);
+  }
+  .cs-node::after{content:""; position:absolute; left:9px; top:9px; width:calc(100% - 9px); height:1px; background:rgba(255,255,255,0.18);}
+  .cs-node:last-child::after{display:none;}
+  .cs-node-live::before{animation:statusPulse 2.2s ease-in-out infinite; background:#7FB88A;}
+  .cs-node-live .cs-date{color:#7FB88A;}
+  .cs-node .cs-date{display:block; font-size:11px; color:var(--amber); font-weight:600; margin-left:16px; margin-bottom:3px; font-variant-numeric:tabular-nums;}
+  .cs-node .cs-label{display:block; font-size:12.5px; color:#C7CAC0; margin-left:16px; line-height:1.4;}
+  .cs-metrics{display:flex; flex-wrap:wrap; gap:14px; margin:0 0 22px;}
+  .cs-metric{flex:1 1 160px; border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:14px 16px; background:rgba(255,255,255,0.03);}
+  .cs-metric b{display:block; font-family:'Fraunces',serif; font-size:22px; color:var(--paper); font-variant-numeric:tabular-nums;}
+  .cs-metric span{font-size:12px; color:#9EA391;}
+  .cs-highlight{font-size:14.5px; color:#D9DCD3; margin-top:4px;}
+  .cs-highlight b{color:var(--amber);}
+  @media (max-width:640px){
+    .cs-node::after{display:none;}
+    .cs-timeline-mini{flex-direction:column; gap:14px;}
+  }
+
   /* ---------- Contact form ---------- */
   .contact-form{
     margin:8px 0 34px;
@@ -452,6 +604,9 @@
 </head>
 <body>
 
+<div id="scroll-progress"></div>
+<div id="cursor-glow" aria-hidden="true"></div>
+
 <header>
   <div class="wrap">
     <div class="brand"><img src="garry.jpg" alt="">Garry Singh</div>
@@ -461,6 +616,7 @@
         <li><a href="#approach">Approach</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#casestudies">Case Studies</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -474,12 +630,17 @@
       <div>
         <div class="status-tag"><span class="status-dot"></span>Open to IT Project Management &amp; Business Analysis roles</div>
         <h1>I turn messy business problems into shipped, working systems.</h1>
+        <div class="role-rotator"><span id="role-text"></span><span class="cursor-blink"></span></div>
         <p class="lede">Senior Project Manager based in Brampton, Ontario — ten years moving from technical support into requirements, delivery, and digital transformation work across fintech, insurance, retail, and telecom.</p>
         <div class="hero-meta">
           <span id="live-clock">Brampton, Ontario, Canada</span>
           <a href="mailto:garrysinghpm@gmail.com" id="hero-email">garrysinghpm@gmail.com</a>
           <button type="button" class="copy-btn" data-copy="garrysinghpm@gmail.com" aria-label="Copy email address">Copy email</button>
           <a href="https://www.linkedin.com/in/garry-singh-a317a4266" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="hero-ctas">
+          <a href="resume.pdf" class="btn-primary" download>Download Résumé</a>
+          <a href="#contact" class="btn-secondary">Let's talk →</a>
         </div>
       </div>
       <div>
@@ -493,6 +654,35 @@
       <div class="stat"><b>5+ yrs</b><span>in project management</span></div>
       <div class="stat"><b>PMP · CSM</b><span>certified practitioner</span></div>
       <div class="stat"><b>4</b><span>industries — fintech, insurance, retail, telecom</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="valueprop">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">Why work with me</div>
+      <div>
+        <h2>What you get on day one</h2>
+        <p class="section-intro">The three things that show up consistently across every project I've run.</p>
+      </div>
+    </div>
+    <div class="vp-grid">
+      <div class="vp-card">
+        <span class="vp-num">01</span>
+        <h4>Problems get caught before they become incidents</h4>
+        <p>I trace changes to every downstream system, not just the fields named in the request — that's usually where the real risk hides.</p>
+      </div>
+      <div class="vp-card">
+        <span class="vp-num">02</span>
+        <h4>Leadership stays informed, never surprised</h4>
+        <p>Clear, current reporting on what's validated versus pending, so decisions get made on the actual state of the project.</p>
+      </div>
+      <div class="vp-card">
+        <span class="vp-num">03</span>
+        <h4>Platform limits become working solutions</h4>
+        <p>When the existing system can't do what's needed, I design around it — scoped, budgeted, and approved, not a costly rebuild.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -633,24 +823,29 @@
       </div>
     </div>
 
-    <div class="case">
-      <div class="when">Mar 2024 – Present</div>
-      <div>
+    <div class="case-grid">
+      <div class="case">
+        <div class="case-badges">
+          <span class="when">Mar 2024 – Present</span>
+          <span class="client-badge">Confidential Telecom Client</span>
+          <span class="progress-badge"><span class="status-dot"></span>In progress</span>
+        </div>
         <h3>Customer 360 CRM Migration — Confidential Telecom Client</h3>
         <dl>
           <dt>Problem</dt>
           <dd>After a merger, Customer Service, Sales, Operations, Finance, and Data teams were working from customer records held across separate legacy systems. Leadership favoured a big-bang migration despite the validation exposure.</dd>
           <dt>Solution</dt>
           <dd>A phased, multi-workstream migration into a single CRM — extraction, cleansing, matching, validation, transformation, and reconciliation. Customers moved segment by segment so each group could be validated before the next, with weekly validated-versus-pending reporting to the steering committee.</dd>
-          <dt>Outcome</dt>
-          <dd>First wave delivered on time with zero major incidents. A discount-code defect caught during cleansing — which would have silently dropped active customer discounts — was resolved before go-live.</dd>
+          <dt>Status</dt>
+          <dd>In progress — first wave, roughly 61,000 accounts, is on track and nearing completion. A discount-code defect caught during cleansing — which would have silently dropped active discounts for about 12,000 customers — was resolved ahead of go-live.</dd>
         </dl>
       </div>
-    </div>
 
-    <div class="case">
-      <div class="when">Jan 2023 – Feb 2024</div>
-      <div>
+      <div class="case">
+        <div class="case-badges">
+          <span class="when">Jan 2023 – Feb 2024</span>
+          <span class="client-badge">Loblaw Companies</span>
+        </div>
         <h3>Invoice Processing Automation (RPA) — Loblaw Companies</h3>
         <dl>
           <dt>Problem</dt>
@@ -658,14 +853,15 @@
           <dt>Solution</dt>
           <dd>An RPA solution that ingests invoice PDFs, extracts and validates the data, and posts it to the accounting system. Compared cost, timeline, and maintenance burden against the full-AI option and took the trade-off to the Finance Lead.</dd>
           <dt>Outcome</dt>
-          <dd>Live in under five months versus 12+ for the alternative. A three-week pilot extension caught extraction errors on scanned invoices and prevented a production data issue.</dd>
+          <dd>Won approval for a $300K scoped build over a $900K+ full-AI alternative, live in under five months versus 12+ for the alternative. A three-week pilot extension caught extraction errors on scanned invoices and prevented a production data issue; a post-launch duplicate-entry issue was resolved within a week.</dd>
         </dl>
       </div>
-    </div>
 
-    <div class="case">
-      <div class="when">Dec 2021 – Dec 2022</div>
-      <div>
+      <div class="case">
+        <div class="case-badges">
+          <span class="when">Dec 2021 – Dec 2022</span>
+          <span class="client-badge">Punjab Insurance</span>
+        </div>
         <h3>Insurance Policy Management Platform — Punjab Insurance</h3>
         <dl>
           <dt>Problem</dt>
@@ -673,14 +869,15 @@
           <dt>Solution</dt>
           <dd>An internal dashboard used by Customer Service and Operations to manage policy information, nominees, beneficiaries, and eligible benefits — automatic processing for simple changes, employee review for complex ones, instead of a costly custom build.</dd>
           <dt>Outcome</dt>
-          <dd>Approved in a single steering committee meeting and delivered within budget, with three initially resistant agents joining UAT.</dd>
+          <dd>Approved in a single steering committee meeting and delivered within an $800K budget. A premium-calculation defect affecting multi-beneficiary policies was caught in testing and corrected before go-live, and three initially resistant agents ended up demoing the tool to peers during UAT.</dd>
         </dl>
       </div>
-    </div>
 
-    <div class="case">
-      <div class="when">Dec 2020 – Nov 2021</div>
-      <div>
+      <div class="case">
+        <div class="case-badges">
+          <span class="when">Dec 2020 – Nov 2021</span>
+          <span class="client-badge">Wealthsimple</span>
+        </div>
         <h3>AI Client Onboarding Automation — Wealthsimple</h3>
         <dl>
           <dt>Problem</dt>
@@ -688,9 +885,112 @@
           <dt>Solution</dt>
           <dd>An AI-assisted review and routing layer on the internal Operations platform, with low-confidence cases routed to Operations for manual review. Joint workshops with Operations, Compliance, Product, Risk, and Technology set agreed risk tiers before development began.</dd>
           <dt>Outcome</dt>
-          <dd>Processing time fell from 2–4 days to under 10 minutes, with zero routing findings in the first two quarters.</dd>
+          <dd>Processing time fell from 2–4 days to under 10 minutes. A joint-application routing gap was caught in testing and corrected before it reached a real client, and the platform closed its first two quarters with zero compliance-related audit findings.</dd>
         </dl>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="casestudies">
+  <div class="wrap">
+    <div class="split">
+      <div class="rail">Deep Dive</div>
+      <div>
+        <h2>Case Studies</h2>
+        <p class="section-intro">Click through each project for the timeline, the numbers, and the call that mattered most.</p>
+      </div>
+    </div>
+
+    <div class="cs-tabs" role="tablist">
+      <button type="button" class="cs-tab active" data-target="cs-c360" role="tab" aria-selected="true">Customer 360 — Telecom</button>
+      <button type="button" class="cs-tab" data-target="cs-invoice" role="tab" aria-selected="false">Invoice Bot — Loblaw</button>
+      <button type="button" class="cs-tab" data-target="cs-insurance" role="tab" aria-selected="false">Insurance Dashboard — Punjab Insurance</button>
+      <button type="button" class="cs-tab" data-target="cs-onboarding" role="tab" aria-selected="false">AI Onboarding — Wealthsimple</button>
+    </div>
+
+    <div class="cs-panel active" id="cs-c360">
+      <div class="cs-panel-head">
+        <h3>Customer 360 CRM Migration</h3>
+        <span class="cs-role">Senior Project Manager · A1 Transformations · Mar 2024 – Present</span>
+      </div>
+      <div class="cs-method">Waterfall governed the business case, charter, and milestone timeline — leadership needed a fixed date before committing budget. Agile sprints governed execution inside each wave, so the team could react fast to what data cleansing turned up.</div>
+      <div class="cs-timeline-mini">
+        <div class="cs-node"><span class="cs-date">Mar 2024</span><span class="cs-label">Kickoff &amp; charter</span></div>
+        <div class="cs-node"><span class="cs-date">Apr 18</span><span class="cs-label">Scope &amp; phased approach approved</span></div>
+        <div class="cs-node"><span class="cs-date">Jun 12</span><span class="cs-label">Discount-code gap found</span></div>
+        <div class="cs-node"><span class="cs-date">Jun 28</span><span class="cs-label">Fix validated</span></div>
+        <div class="cs-node cs-node-live"><span class="cs-date">Ongoing</span><span class="cs-label">Wave 1 nearing completion</span></div>
+      </div>
+      <div class="cs-metrics">
+        <div class="cs-metric"><b data-count="340000" data-suffix="">0</b><span>total customer records</span></div>
+        <div class="cs-metric"><b data-count="61000" data-suffix="">0</b><span>accounts in wave 1</span></div>
+        <div class="cs-metric"><b data-count="12000" data-suffix="">0</b><span>customers protected from discount loss</span></div>
+      </div>
+      <p class="cs-highlight">Defended a <b>phased migration</b> against pressure for a risky big-bang cutover, and caught a discount-code gap before it could affect 12,000 customers.</p>
+    </div>
+
+    <div class="cs-panel" id="cs-invoice">
+      <div class="cs-panel-head">
+        <h3>Invoice Processing Bot (RPA)</h3>
+        <span class="cs-role">IT Project Manager · Akom Infotech Ltd. · Jan 2023 – Feb 2024</span>
+      </div>
+      <div class="cs-method">Waterfall governed the scope-and-budget decision — Finance and the CFO needed to sign off on scoped RPA versus a full AI build before anything started. Agile sprints governed the pilot, letting fixes get reworked and re-tested inside the same cycle.</div>
+      <div class="cs-timeline-mini">
+        <div class="cs-node"><span class="cs-date">Jan 2023</span><span class="cs-label">Kickoff &amp; charter</span></div>
+        <div class="cs-node"><span class="cs-date">Feb 24</span><span class="cs-label">Scoped build approved over full AI</span></div>
+        <div class="cs-node"><span class="cs-date">Apr 2023</span><span class="cs-label">Scanned-invoice issue found</span></div>
+        <div class="cs-node"><span class="cs-date">May 2023</span><span class="cs-label">Fix validated</span></div>
+        <div class="cs-node"><span class="cs-date">Sep 2023</span><span class="cs-label">Go-live (phased)</span></div>
+      </div>
+      <div class="cs-metrics">
+        <div class="cs-metric"><b data-count="300" data-suffix="K">0</b><span>approved build vs. $900K+ alternative</span></div>
+        <div class="cs-metric"><b data-count="12000" data-suffix="">0</b><span>invoices processed monthly</span></div>
+        <div class="cs-metric"><b data-count="5" data-suffix=" mo">0</b><span>time to go-live, vs. 12+ for full AI</span></div>
+      </div>
+      <p class="cs-highlight">Built a <b>data-backed case</b> that won a leaner $300K build over a $900K+ alternative, delivering in under five months.</p>
+    </div>
+
+    <div class="cs-panel" id="cs-insurance">
+      <div class="cs-panel-head">
+        <h3>Insurance Policy Management Dashboard</h3>
+        <span class="cs-role">IT Project Manager · Akom Infotech Ltd. · Dec 2021 – Dec 2022</span>
+      </div>
+      <div class="cs-method">Waterfall governed initiation and scope — the hybrid auto-process/manual-review design needed steering committee approval upfront, since it touched the core platform workflow. Agile sprints governed build and UAT, folding agent feedback in quickly.</div>
+      <div class="cs-timeline-mini">
+        <div class="cs-node"><span class="cs-date">Jan 2022</span><span class="cs-label">Kickoff &amp; charter</span></div>
+        <div class="cs-node"><span class="cs-date">Feb 18</span><span class="cs-label">Hybrid approach approved</span></div>
+        <div class="cs-node"><span class="cs-date">Jun 2022</span><span class="cs-label">Premium-calc defect found</span></div>
+        <div class="cs-node"><span class="cs-date">Jul 2022</span><span class="cs-label">Fix validated</span></div>
+        <div class="cs-node"><span class="cs-date">Oct 3</span><span class="cs-label">Go-live</span></div>
+      </div>
+      <div class="cs-metrics">
+        <div class="cs-metric"><b data-count="800" data-suffix="K">0</b><span>budget, delivered within it</span></div>
+        <div class="cs-metric"><b data-count="8000" data-suffix="">0</b><span>policy-change requests monthly</span></div>
+        <div class="cs-metric"><b data-count="3" data-suffix="">0</b><span>skeptical agents turned advocates</span></div>
+      </div>
+      <p class="cs-highlight">Designed a <b>hybrid workaround</b> for a platform limitation and turned the most resistant frontline agents into advocates.</p>
+    </div>
+
+    <div class="cs-panel" id="cs-onboarding">
+      <div class="cs-panel-head">
+        <h3>AI Client Onboarding Automation</h3>
+        <span class="cs-role">IT Project Manager · Akom Infotech Ltd. · Dec 2020 – Nov 2021</span>
+      </div>
+      <div class="cs-method">Waterfall governed initiation and planning — the risk-tier framework had to be locked and signed off by Compliance before development started, since regulatory sign-off doesn't work well with "figure it out as we go." Agile sprints governed the build.</div>
+      <div class="cs-timeline-mini">
+        <div class="cs-node"><span class="cs-date">Jan 2021</span><span class="cs-label">Kickoff &amp; charter</span></div>
+        <div class="cs-node"><span class="cs-date">Feb 15</span><span class="cs-label">Risk-tier framework approved</span></div>
+        <div class="cs-node"><span class="cs-date">Apr 9</span><span class="cs-label">Routing gap found</span></div>
+        <div class="cs-node"><span class="cs-date">Apr 23</span><span class="cs-label">Fix validated</span></div>
+        <div class="cs-node"><span class="cs-date">Sep 7</span><span class="cs-label">Go-live</span></div>
+      </div>
+      <div class="cs-metrics">
+        <div class="cs-metric"><b data-count="650" data-suffix="K">0</b><span>project budget</span></div>
+        <div class="cs-metric"><b data-count="5000" data-suffix="">0</b><span>applications reviewed monthly</span></div>
+        <div class="cs-metric"><b data-count="10" data-suffix=" min">0</b><span>from 2–4 days, per applicant</span></div>
+      </div>
+      <p class="cs-highlight">Aligned <b>Compliance, Product, and Risk</b> on a shared framework before development, avoiding rework later.</p>
     </div>
   </div>
 </section>
@@ -1147,6 +1447,150 @@
     window.addEventListener('scroll', onScrollSpy, {passive:true});
     onScrollSpy();
   }
+
+  // ---- Live scroll progress bar ----
+  (function(){
+    var bar = document.getElementById('scroll-progress');
+    if(!bar) return;
+    function update(){
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      bar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // ---- Cursor glow follower (desktop / hover-capable only) ----
+  (function(){
+    var glow = document.getElementById('cursor-glow');
+    if(!glow) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion || !window.matchMedia('(hover:hover)').matches) return;
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, shown = false;
+    window.addEventListener('pointermove', function(e){
+      tx = e.clientX; ty = e.clientY;
+      if(!shown){ shown = true; glow.style.opacity = '1'; cx = tx; cy = ty; }
+      if(!raf) raf = requestAnimationFrame(tick);
+    }, {passive:true});
+    function tick(){
+      cx += (tx - cx) * 0.16; cy += (ty - cy) * 0.16;
+      glow.style.transform = 'translate(' + cx + 'px,' + cy + 'px) translate(-50%,-50%)';
+      raf = (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4) ? requestAnimationFrame(tick) : null;
+    }
+  })();
+
+  // ---- Hero role typewriter ----
+  (function(){
+    var el = document.getElementById('role-text');
+    if(!el) return;
+    var roles = ['Senior Project Manager', 'Business Analyst', 'Scrum Master', 'Change Manager', 'Digital Transformation Lead'];
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion){ el.textContent = roles[0]; return; }
+    var ri = 0, ci = 0, deleting = false;
+    function tick(){
+      var word = roles[ri];
+      if(!deleting){
+        ci++;
+        el.textContent = word.slice(0, ci);
+        if(ci === word.length){ deleting = true; setTimeout(tick, 1500); return; }
+      } else {
+        ci--;
+        el.textContent = word.slice(0, ci);
+        if(ci === 0){ deleting = false; ri = (ri + 1) % roles.length; }
+      }
+      setTimeout(tick, deleting ? 32 : 62);
+    }
+    tick();
+  })();
+
+  // ---- Project card tilt + glow-follow ----
+  (function(){
+    var cards = document.querySelectorAll('#projects .case');
+    if(!cards.length) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = window.matchMedia('(hover:hover)').matches;
+    cards.forEach(function(card){
+      card.addEventListener('pointermove', function(e){
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+        card.style.setProperty('--tx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--ty', (py * 100).toFixed(1) + '%');
+        if(!reduceMotion && canHover){
+          var rx = (py - 0.5) * -5;
+          var ry = (px - 0.5) * 5;
+          card.style.transform = 'perspective(800px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-2px)';
+        }
+      });
+      card.addEventListener('pointerleave', function(){ card.style.transform = ''; });
+    });
+  })();
+
+  // ---- Case Studies: tabs, animated metrics, cursor spotlight ----
+  (function(){
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.cs-tab'));
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.cs-panel'));
+    if(!tabs.length || !panels.length) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function animateMetric(el){
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      if(isNaN(target)) return;
+      if(reduceMotion){ el.textContent = target.toLocaleString() + suffix; return; }
+      var start = null, duration = 850;
+      function step(ts){
+        if(start === null) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased).toLocaleString() + suffix;
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function activate(tab){
+      tabs.forEach(function(t){ t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+      var target = document.getElementById(tab.getAttribute('data-target'));
+      if(target){
+        target.classList.add('active');
+        target.querySelectorAll('.cs-metric b').forEach(animateMetric);
+      }
+    }
+    tabs.forEach(function(t){ t.addEventListener('click', function(){ activate(t); }); });
+
+    // animate the first panel's metrics once it scrolls into view
+    var firstPanel = document.querySelector('.cs-panel.active');
+    if(firstPanel && 'IntersectionObserver' in window){
+      var seenFirst = false;
+      var obsFirst = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !seenFirst){
+            seenFirst = true;
+            firstPanel.querySelectorAll('.cs-metric b').forEach(animateMetric);
+            obsFirst.disconnect();
+          }
+        });
+      }, { threshold:0.3 });
+      obsFirst.observe(firstPanel);
+    }
+
+    // cursor spotlight glow that follows the pointer inside the active panel
+    if(!reduceMotion){
+      panels.forEach(function(p){
+        p.addEventListener('pointermove', function(e){
+          var r = p.getBoundingClientRect();
+          p.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+          p.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        });
+      });
+    }
+  })();
 
   // ---- Working contact form (Formspree) ----
   var form = document.getElementById('contact-form');
