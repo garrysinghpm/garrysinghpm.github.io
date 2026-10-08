@@ -30,7 +30,7 @@
   }
   ::selection{background:var(--amber); color:var(--white);}
   a{color:inherit;}
-  .wrap{max-width:760px; margin:0 auto; padding:0 28px;}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
   .wrap-wide{max-width:1040px; margin:0 auto; padding:0 28px;}
 
   /* focus visibility */
@@ -380,6 +380,88 @@
   .role ul li + li{margin-top:6px;}
   .role.compact ul{columns:1;}
 
+  /* ---------- Employer -> client map ---------- */
+  .employ-map{
+    --em-line:#A3A99B;
+    display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start;
+    margin:0 0 14px;
+  }
+  .emp-tree{min-width:0;}
+  .emp-head{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+    padding:10px 14px;
+  }
+  .emp-head .em-tag{
+    display:block; font-size:10.5px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:2px;
+  }
+  .emp-head .em-name{display:block; font-family:'Fraunces',serif; font-weight:500; font-size:16px; line-height:1.3;}
+  .emp-head .em-dates{display:block; font-size:12px; color:var(--amber-deep); font-weight:600; margin-top:2px; font-variant-numeric:tabular-nums;}
+  .emp-clients{list-style:none; margin:0 0 0 24px; padding:0;}
+  .emp-clients li{
+    position:relative; height:42px; display:flex; align-items:center;
+    padding-left:30px; font-size:17px; font-weight:600; color:var(--ink);
+  }
+  .emp-clients li::before{content:""; position:absolute; left:0; top:20px; width:20px; height:2px; background:var(--em-line);}
+  .emp-clients li::after{content:""; position:absolute; left:0; top:0; width:2px; height:42px; background:var(--em-line);}
+  .emp-clients li:first-child::after{top:-1px; height:43px;}
+  .emp-clients li:last-child::after{height:22px;}
+  .emp-clients li:first-child:last-child::after{top:-1px; height:23px;}
+  .emp-clients li.cl-label{
+    height:32px; align-items:flex-end; padding-bottom:4px;
+    font-size:10.5px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--amber-deep);
+  }
+  .emp-clients li.cl-label::before{display:none;}
+  .emp-clients li.cl-label::after{top:-1px; height:33px;}
+  .em-caption{font-size:13.5px; color:var(--ink-soft); margin:6px 0 44px;}
+  @media (max-width:600px){
+    .employ-map{grid-template-columns:1fr; gap:20px;}
+  }
+
+  /* ---------- Client blocks with employer brace ---------- */
+  .client-block{display:flex; align-items:stretch; margin-bottom:38px;}
+  .client-block:last-child{margin-bottom:0;}
+  .client-block .timeline{flex:1 1 auto; min-width:0; margin-left:14px;}
+  .eb{display:flex; align-items:stretch; flex:0 0 auto; --brace:rgba(69,77,93,0.5); padding-bottom:4px;}
+  .eb-label{
+    writing-mode:vertical-rl; transform:rotate(180deg);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; letter-spacing:0.08em; color:var(--ink-soft); white-space:nowrap;
+    padding-right:2px;
+  }
+  .eb .brace{display:flex; flex-direction:column; width:26px; transform:scaleX(-1); margin-left:6px;}
+  .eb .brace .cap-t{height:12px; width:12px; border-top:2px solid var(--brace); border-right:2px solid var(--brace); border-top-right-radius:12px;}
+  .eb .brace .cap-b{height:12px; width:12px; border-bottom:2px solid var(--brace); border-right:2px solid var(--brace); border-bottom-right-radius:12px;}
+  .eb .brace .ln{flex:1 1 0; width:12px; border-right:2px solid var(--brace);}
+  .eb .brace .tip-a{height:12px; width:14px; margin-left:10px; border-left:2px solid var(--brace); border-bottom:2px solid var(--brace); border-bottom-left-radius:12px;}
+  .eb .brace .tip-b{height:12px; width:14px; margin-left:10px; margin-top:-2px; border-left:2px solid var(--brace); border-top:2px solid var(--brace); border-top-left-radius:12px;}
+  .client-block.no-brace{padding-left:46px; margin-top:-10px;}
+  .client-block:has(details.earlier:not([open])) .eb-label{display:none;}
+  .client-block:has(details.earlier:not([open])) .eb{padding-left:20px;}
+  @media (max-width:600px){
+    .eb-label{display:none;}
+    .eb .brace{width:20px; margin-left:0;}
+    .client-block .timeline{margin-left:10px;}
+    .client-block.no-brace{padding-left:30px;}
+  }
+  .role .place .via{display:none; color:var(--ink-soft); font-style:italic;}
+  .role-tiles{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 8px;}
+  .role-tile{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:600; line-height:1.4; letter-spacing:0.01em;
+    padding:4px 12px; border-radius:999px; border:1px solid var(--line);
+    background:var(--paper-raised); color:var(--ink);
+  }
+  .role-tile .rt-k{font-weight:500; color:var(--ink-soft);}
+  .role-tile.rt-type{background:transparent; color:var(--ink-soft); font-weight:500;}
+  @media (max-width:600px){
+    .em-row{grid-template-columns:1fr; gap:0;}
+    .em-link{width:2px; height:12px; margin-left:24px;}
+    .em-clients{margin-left:24px; border-left:2px solid var(--em-line); padding:2px 0;}
+    .em-clients li::after{display:none;}
+    .em-clients li::before{left:0;}
+  }
+
   details.earlier{margin-top:6px;}
   details.earlier summary{
     cursor:pointer; font-size:14px; color:var(--teal); font-weight:600;
@@ -431,6 +513,36 @@
     transition:transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     will-change:transform;
   }
+  /* employer banners (Projects) */
+  .case-employer{
+    grid-column:1 / -1; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px;
+    margin:26px 0 4px; padding:16px 22px; border-radius:14px;
+    border:1px solid rgba(169,129,47,0.4);
+    background:linear-gradient(90deg, rgba(169,129,47,0.24), rgba(169,129,47,0.05) 70%);
+    box-shadow:inset 4px 0 0 var(--amber);
+  }
+  .case-employer:first-child{margin-top:0;}
+  .case-group{grid-column:1 / -1; display:flex; align-items:stretch; gap:16px;}
+  .case-group .eb{--brace:rgba(255,255,255,0.4); padding-bottom:0;}
+  .case-group .eb .brace{margin-left:0;}
+  .case-stack{flex:1 1 auto; min-width:0; display:grid; grid-template-columns:1fr; gap:22px;}
+  .case-employer .ce-tag, .cs-tab-group .ctg-tag{
+    display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ink); background:var(--amber); border-radius:999px; padding:4px 11px; line-height:1.3;
+  }
+  .case-employer .ce-name{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(24px,3.2vw,31px); line-height:1.15; color:#fff;}
+  .case-employer .ce-dates, .cs-tab-group .ctg-dates{
+    font-size:13px; font-weight:600; color:#EDEFE6; font-variant-numeric:tabular-nums;
+    border:1px solid rgba(255,255,255,0.28); border-radius:999px; padding:4px 13px; line-height:1.3;
+  }
+  /* employer labels above the case-study tabs */
+  .cs-tab-group{
+    flex:0 0 100%; display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px;
+    margin-top:14px; padding-left:14px; border-left:3px solid var(--amber);
+  }
+  .cs-tab-group:first-child{margin-top:0;}
+  .cs-tab-group .ctg-name{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(20px,2.6vw,25px); line-height:1.2; color:#fff;}
+
   .case:hover{border-color:rgba(169,129,47,0.5); box-shadow:0 18px 38px rgba(0,0,0,0.35);}
   .case-badges{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
   .case .when{
@@ -460,6 +572,25 @@
   }
   .case dt:first-child{margin-top:0;}
   .case dd{margin-top:3px;}
+
+  /* ---------- Wide project cards: label column + text column ---------- */
+  .case-grid{grid-template-columns:1fr;}
+  .case{padding:28px 32px 30px;}
+  .case h3{max-width:none;}
+  .case dl{
+    display:grid; grid-template-columns:96px minmax(0,1fr);
+    column-gap:24px; row-gap:16px; align-items:start;
+  }
+  .case dt, .case dt:first-child{
+    margin-top:2px; text-transform:uppercase; letter-spacing:0.12em; font-size:11px; color:var(--amber);
+  }
+  .case dd{margin-top:0; line-height:1.65;}
+  @media (max-width:600px){
+    .case{padding:24px 22px 26px;}
+    .case dl{grid-template-columns:1fr; row-gap:0;}
+    .case dt, .case dt:first-child{margin-top:14px; margin-bottom:3px;}
+    .case dt:first-child{margin-top:0;}
+  }
 
   /* ---------- Credentials (compact strip) ---------- */
   #education{padding:34px 0; background:var(--paper);}
@@ -562,6 +693,14 @@
   .cs-metric{flex:1 1 160px; border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:14px 16px; background:rgba(255,255,255,0.03);}
   .cs-metric b{display:block; font-family:'Fraunces',serif; font-size:22px; color:var(--paper); font-variant-numeric:tabular-nums;}
   .cs-metric span{font-size:12px; color:#9EA391;}
+  .cs-cols{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:0 0 22px;}
+  .cs-col h4{
+    font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:8px;
+  }
+  .cs-col ul{padding-left:18px; font-size:13.5px; color:#C7CAC0; line-height:1.55;}
+  .cs-col li + li{margin-top:7px;}
+  @media (max-width:760px){ .cs-cols{grid-template-columns:1fr; gap:18px;} }
   .cs-highlight{font-size:14.5px; color:#D9DCD3; margin-top:4px;}
   .cs-highlight b{color:var(--amber);}
   @media (max-width:640px){
@@ -742,24 +881,70 @@
       </div>
     </div>
 
+    <div class="employ-map" aria-label="Employers and the clients I delivered for">
+      <div class="emp-tree">
+        <div class="emp-head">
+          <span class="em-tag">Employer</span>
+          <span class="em-name">A1 Transformations Inc.</span>
+          <span class="em-dates">Mar 2024 – Present</span>
+        </div>
+        <ul class="emp-clients">
+          <li class="cl-label">Client I worked with</li>
+          <li>Rogers Communications</li>
+        </ul>
+      </div>
+      <div class="emp-tree">
+        <div class="emp-head">
+          <span class="em-tag">Employer</span>
+          <span class="em-name">Akom Infotech Ltd.</span>
+          <span class="em-dates">Sep 2019 – Feb 2024</span>
+        </div>
+        <ul class="emp-clients">
+          <li class="cl-label">Clients I worked with</li>
+          <li>Wealthsimple</li>
+          <li>Punjab Insurance</li>
+          <li>Loblaw Companies</li>
+        </ul>
+      </div>
+    </div>
+    <p class="em-caption">My employers are A1 Transformations and Akom Infotech; the companies listed under each one are the clients I delivered for.</p>
+
+    <div class="career-blocks">
+    <div class="client-block">
+      <div class="eb" aria-hidden="true">
+        <div class="eb-label">A1 Transformations Inc.</div>
+        <div class="brace"><span class="cap-t"></span><span class="ln"></span><span class="tip-a"></span><span class="tip-b"></span><span class="ln"></span><span class="cap-b"></span></div>
+      </div>
     <div class="timeline">
       <div class="role">
         <div class="dates">Mar 2024 – Present</div>
         <h3>Senior Project Manager</h3>
-        <div class="place">Rogers Communications — Brampton, Canada</div>
+        <div class="role-tiles"><span class="role-tile"><span class="rt-k">Via</span> A1 Transformations Inc.</span><span class="role-tile rt-type">Contract · Full-time</span></div>
+        <div class="place">Rogers Communications — Brampton, Canada<span class="via"> · via A1 Transformations Inc.</span></div>
         <ul>
           <li>Lead IT and transformation projects end to end — from business problem through requirements, delivery, and closure.</li>
           <li>Define scope and success criteria with stakeholders and delivery teams; manage schedule, risk, issues, dependencies, and change.</li>
           <li>Administer Jira and Jira Service Management — custom workflows, automation rules, permissions, and dashboards that give teams and stakeholders real-time visibility into progress and blockers.</li>
           <li>Serve as Scrum Master on selected Agile projects — facilitating ceremonies, removing impediments, and coaching teams.</li>
           <li>Act as Change Manager on selected initiatives — impact assessment, communications, training, and adoption.</li>
+          <li>Lead a four-wave CRM data migration of about 340,000 accounts; raised the budget ceiling from $1.4M to $3.0M through evidence-based change control and delivered Wave 1 (about 61,000 accounts) within its $2.3M budget.</li>
         </ul>
       </div>
 
+    </div>
+    </div>
+
+    <div class="client-block">
+      <div class="eb" aria-hidden="true">
+        <div class="eb-label">Akom Infotech Ltd.</div>
+        <div class="brace"><span class="cap-t"></span><span class="ln"></span><span class="tip-a"></span><span class="tip-b"></span><span class="ln"></span><span class="cap-b"></span></div>
+      </div>
+    <div class="timeline">
       <div class="role">
         <div class="dates">Jan 2023 – Feb 2024</div>
         <h3>Project Manager</h3>
-        <div class="place">Loblaw Companies Limited — Brampton, Canada</div>
+        <div class="role-tiles"><span class="role-tile"><span class="rt-k">Via</span> Akom Infotech Ltd.</span><span class="role-tile rt-type">Contract · Full-time</span></div>
+        <div class="place">Loblaw Companies Limited — Brampton, Canada<span class="via"> · via Akom Infotech Ltd.</span></div>
         <ul>
           <li>Manage IT initiatives from business problem identification through planning, development, testing, implementation, and closure.</li>
           <li>Work with stakeholders, developers, QA, and technical teams to define scope, requirements, priorities, and deliverables.</li>
@@ -767,52 +952,69 @@
           <li>Administered Jira and Jira Service Management — custom workflows, automation rules, and dashboards to track sprint progress, ticket status, and stakeholder-facing metrics.</li>
           <li>Coordinate Agile delivery — sprint planning, backlog refinement, reviews, retrospectives; Scrum Master duties from Oct 2023.</li>
           <li>Lead digital transformation initiatives spanning AI, automation, CRM, and data migration.</li>
+          <li>Delivered an RPA invoice bot for about 12,000 invoices a month at about $291K against a $300K budget, cutting manual keying time by about 78 percent.</li>
         </ul>
       </div>
 
       <div class="role">
         <div class="dates">Dec 2021 – Dec 2022</div>
         <h3>Project Manager</h3>
-        <div class="place">Punjab Insurance</div>
+        <div class="role-tiles"><span class="role-tile"><span class="rt-k">Via</span> Akom Infotech Ltd.</span><span class="role-tile rt-type">Contract · Full-time</span></div>
+        <div class="place">Punjab Insurance<span class="via"> · via Akom Infotech Ltd.</span></div>
         <ul>
           <li>Manage IT initiatives from business problem identification through planning, development, testing, implementation, and closure.</li>
           <li>Work with stakeholders, developers, QA, and technical teams to define scope, requirements, priorities, and deliverables.</li>
           <li>Develop BRDs, FRDs, user stories, acceptance criteria, process flows, UAT plans, and status reporting.</li>
           <li>Managed project schedules, risks, issues, dependencies, changes, and stakeholder communication.</li>
+          <li>Delivered a policy-change dashboard at about $786K against an $800K budget, cutting manual handling time by about 75 percent.</li>
         </ul>
       </div>
 
       <div class="role">
         <div class="dates">Dec 2020 – Nov 2021</div>
         <h3>Project Manager <span style="font-weight:400">(promoted from Business Analyst)</span></h3>
-        <div class="place">Wealthsimple — Toronto, Canada</div>
+        <div class="role-tiles"><span class="role-tile"><span class="rt-k">Via</span> Akom Infotech Ltd.</span><span class="role-tile rt-type">Contract · Full-time</span></div>
+        <div class="place">Wealthsimple — Toronto, Canada<span class="via"> · via Akom Infotech Ltd.</span></div>
         <ul>
           <li>Manage IT initiatives from business problem identification through planning, development, testing, implementation, and closure.</li>
           <li>Work with stakeholders, developers, QA, and technical teams to define scope, requirements, priorities, and deliverables.</li>
           <li>Develop BRDs, FRDs, user stories, acceptance criteria, process flows, UAT plans, and status reporting.</li>
           <li>Coordinated Agile delivery — sprint planning, backlog refinement, reviews, and retrospectives.</li>
           <li>Took over the AI Client Onboarding Automation project after promotion, carrying business analysis responsibilities alongside delivery during the transition.</li>
+          <li>Launched on the planned date at about $638K against a $650K budget; about 70 percent of applications are now decided automatically in under ten minutes.</li>
         </ul>
       </div>
 
       <div class="role">
         <div class="dates">Sep 2019 – Nov 2020</div>
         <h3>Business Analyst</h3>
-        <div class="place">Wealthsimple — Toronto, Canada</div>
+        <div class="role-tiles"><span class="role-tile"><span class="rt-k">Via</span> Akom Infotech Ltd.</span><span class="role-tile rt-type">Contract · Full-time</span></div>
+        <div class="place">Wealthsimple — Toronto, Canada<span class="via"> · via Akom Infotech Ltd.</span></div>
         <ul>
           <li>Gathered and analyzed business and system requirements for technology initiatives.</li>
           <li>Created requirements, user stories, acceptance criteria, and UAT scenarios; performed gap analysis.</li>
           <li>Supported application enhancements, testing, and post-production activities.</li>
           <li>Worked on the AI Client Onboarding Automation project as Business Analyst, then continued on it as Project Manager after promotion.</li>
+          <li>Documented the missing decision audit trail in 2019, the finding that later became the project’s top requirement, and wrote the Remote Review Procedure that let reviewers work securely from home during COVID-19.</li>
         </ul>
       </div>
 
+    </div>
+    </div>
+
+    <div class="client-block">
+      <div class="eb" aria-hidden="true">
+        <div class="eb-label">Tech Mahindra</div>
+        <div class="brace"><span class="cap-t"></span><span class="ln"></span><span class="tip-a"></span><span class="tip-b"></span><span class="ln"></span><span class="cap-b"></span></div>
+      </div>
+    <div class="timeline">
       <details class="earlier">
         <summary>Earlier roles — technical &amp; application support, Tech Mahindra 2016–2019</summary>
 
         <div class="role compact">
           <div class="dates">Aug 2018 – Aug 2019</div>
           <h3>Application Support Analyst</h3>
+          <div class="role-tiles"><span class="role-tile rt-type">Full-time</span></div>
           <div class="place">Tech Mahindra — Mohali, Punjab, India</div>
           <ul>
             <li>Supported business applications and investigated incidents, defects, and operational issues.</li>
@@ -823,6 +1025,7 @@
         <div class="role compact">
           <div class="dates">Jun 2016 – Jul 2018</div>
           <h3>Technical Support Analyst</h3>
+          <div class="role-tiles"><span class="role-tile rt-type">Full-time</span></div>
           <div class="place">Tech Mahindra — Mohali, Punjab, India</div>
           <ul>
             <li>Provided technical support across hardware, software, application, and system issues, and coordinated escalations.</li>
@@ -831,6 +1034,8 @@
           </ul>
         </div>
       </details>
+    </div>
+    </div>
     </div>
   </div>
 </section>
@@ -852,6 +1057,12 @@
     </div>
 
     <div class="case-grid">
+      <div class="case-employer"><span class="ce-tag">Employer</span><span class="ce-name">A1 Transformations Inc.</span><span class="ce-dates">Mar 2024 – Present</span></div>
+      <div class="case-group">
+      <div class="eb" aria-hidden="true">
+        <div class="brace"><span class="cap-t"></span><span class="ln"></span><span class="tip-a"></span><span class="tip-b"></span><span class="ln"></span><span class="cap-b"></span></div>
+      </div>
+      <div class="case-stack">
       <div class="case">
         <div class="case-badges">
           <span class="when">Mar 2024 – Present</span>
@@ -865,10 +1076,18 @@
           <dt>Solution</dt>
           <dd>Led a phased four-wave data unification effort into a single CRM, using Master Data Management (MDM) practices — extraction, cleansing, matching, deduplication, validation, transformation, and reconciliation — to create one trusted customer record. Brought in a third-party data-matching vendor instead of building matching logic in-house, saving about two months. Used the triple constraint to win unanimous Steering Committee approval for phased waves over a big-bang cutover. Tailored communication by seniority, ran mock migrations through change control to catch issues early, brought real end users into UAT and training, and had Finance validate accuracy in a parallel run before go-live.</dd>
           <dt>Status</dt>
-          <dd>In progress — Wave 1 (about 61,000 accounts, roughly 18% of the total) is live and was delivered within budget. Data issues were caught in mock migrations before any real customer was affected, and the go-live retrospective produced two permanent process changes that carry into the remaining waves.</dd>
+          <dd>In progress — Wave 1 (about 61,000 accounts, roughly 18% of the total) is live and was delivered within budget. Data issues were caught in mock migrations before any real customer was affected, and the go-live retrospective produced two permanent process changes that carry into the remaining waves. After profiling found 24 percent duplication, a change request raised the program budget from $1.4M to $3.0M. The Wave 1 cutover loaded 61,038 accounts with 99.94 percent matching cleanly, a six-week parallel run matched 60,912 of 61,000 bills exactly, and weekly billing calls from Wave 1 customers are down about 38 percent.</dd>
         </dl>
       </div>
 
+      </div>
+      </div>
+      <div class="case-employer"><span class="ce-tag">Employer</span><span class="ce-name">Akom Infotech Ltd.</span><span class="ce-dates">Sep 2019 – Feb 2024</span></div>
+      <div class="case-group">
+      <div class="eb" aria-hidden="true">
+        <div class="brace"><span class="cap-t"></span><span class="ln"></span><span class="tip-a"></span><span class="tip-b"></span><span class="ln"></span><span class="cap-b"></span></div>
+      </div>
+      <div class="case-stack">
       <div class="case">
         <div class="case-badges">
           <span class="when">Jan 2023 – Feb 2024</span>
@@ -881,7 +1100,7 @@
           <dt>Solution</dt>
           <dd>An RPA solution that ingests invoice PDFs, extracts and validates the data, and posts it to the accounting system. Compared cost, timeline, and maintenance burden against the full-AI option and took the trade-off to the Finance Lead.</dd>
           <dt>Outcome</dt>
-          <dd>Won approval for a $300K scoped build over a $900K+ full-AI alternative, live in under five months versus 12+ for the alternative. A three-week pilot extension caught extraction errors on scanned invoices and prevented a production data issue; a post-launch duplicate-entry issue was resolved within a week.</dd>
+          <dd>Won approval for a $300K scoped build over a $900K+ full-AI alternative, first go-live about eight months after kickoff versus 12+ months just to build the alternative. A three-week pilot extension caught extraction errors on scanned invoices and prevented a production data issue; a post-launch duplicate-entry issue was resolved within a week. Manual keying time fell about 78 percent, and the project closed at about $291K.</dd>
         </dl>
       </div>
 
@@ -897,7 +1116,7 @@
           <dt>Solution</dt>
           <dd>An internal dashboard used by Customer Service and Operations to manage policy information, nominees, beneficiaries, and eligible benefits — automatic processing for simple changes, employee review for complex ones, instead of a costly custom build.</dd>
           <dt>Outcome</dt>
-          <dd>Approved in a single steering committee meeting and delivered within an $800K budget. A premium-calculation defect affecting multi-beneficiary policies was caught in testing and corrected before go-live, and three initially resistant agents ended up demoing the tool to peers during UAT.</dd>
+          <dd>Approved in a single steering committee meeting and delivered within an $800K budget. A premium-calculation defect affecting multi-beneficiary policies was caught in testing and corrected before go-live, and three initially resistant agents ended up demoing the tool to peers during UAT. Manual handling time fell about 75 percent, with about 60 percent of changes processed automatically and no errors found in a 400-change compliance sample.</dd>
         </dl>
       </div>
 
@@ -913,8 +1132,10 @@
           <dt>Solution</dt>
           <dd>An AI-assisted review and routing layer on the internal Operations platform, with low-confidence cases routed to Operations for manual review. Joint workshops with Operations, Compliance, Product, Risk, and Technology set agreed risk tiers before development began.</dd>
           <dt>Outcome</dt>
-          <dd>Processing time fell from 2–4 days to under 10 minutes. A joint-application routing gap was caught in testing and corrected before it reached a real client, and the platform closed its first two quarters with zero compliance-related audit findings.</dd>
+          <dd>Processing time fell from 2–4 days to under 10 minutes. A joint-application routing gap was caught in testing and corrected before it reached a real client, and the platform passed its first internal compliance review with zero findings. About 70 percent of applications are now decided automatically, and the project closed at about $638K of its $650K budget.</dd>
         </dl>
+      </div>
+      </div>
       </div>
     </div>
   </div>
@@ -931,7 +1152,9 @@
     </div>
 
     <div class="cs-tabs" role="tablist">
+      <span class="cs-tab-group"><span class="ctg-tag">Employer</span><span class="ctg-name">A1 Transformations Inc.</span><span class="ctg-dates">Mar 2024 – Present</span></span>
       <button type="button" class="cs-tab active" data-target="cs-c360" role="tab" aria-selected="true">Customer 360 — Rogers</button>
+      <span class="cs-tab-group"><span class="ctg-tag">Employer</span><span class="ctg-name">Akom Infotech Ltd.</span><span class="ctg-dates">Sep 2019 – Feb 2024</span></span>
       <button type="button" class="cs-tab" data-target="cs-invoice" role="tab" aria-selected="false">Invoice Bot — Loblaw</button>
       <button type="button" class="cs-tab" data-target="cs-insurance" role="tab" aria-selected="false">Insurance Dashboard — Punjab Insurance</button>
       <button type="button" class="cs-tab" data-target="cs-onboarding" role="tab" aria-selected="false">AI Onboarding — Wealthsimple</button>
@@ -940,12 +1163,13 @@
     <div class="cs-panel active" id="cs-c360">
       <div class="cs-panel-head">
         <h3>Customer 360 CRM Migration — Rogers Communications</h3>
-        <span class="cs-role">Senior Project Manager · Rogers Communications · Mar 2024 – Present</span>
+        <span class="cs-role">Senior Project Manager · Rogers Communications · via A1 Transformations Inc. · Mar 2024 – Present</span>
       </div>
       <div class="cs-method">Waterfall governed the baselines and milestones in MS Project — leadership needed fixed dates before committing budget. Agile governed execution: two-week sprints in Jira, so the team could react fast to what mock migrations turned up.</div>
       <div class="cs-timeline-mini">
         <div class="cs-node"><span class="cs-date">Mar 2024</span><span class="cs-label">Kickoff &amp; planning</span></div>
         <div class="cs-node"><span class="cs-date">Jul 2024</span><span class="cs-label">Four-wave plan approved unanimously</span></div>
+        <div class="cs-node"><span class="cs-date">Jan 2025</span><span class="cs-label">24% duplication found; budget raised to $3.0M by change request</span></div>
         <div class="cs-node"><span class="cs-date">Apr 2025</span><span class="cs-label">Agile sprints begin</span></div>
         <div class="cs-node"><span class="cs-date">Sep 2025</span><span class="cs-label">Data issues caught in mock migration</span></div>
         <div class="cs-node"><span class="cs-date">Jun 2026</span><span class="cs-label">UAT sign-off with real end users</span></div>
@@ -960,6 +1184,13 @@
         <div class="cs-metric"><b data-count="3" data-suffix="">0</b><span>mock migrations run before go-live</span></div>
         <div class="cs-metric"><b data-count="2" data-suffix="">0</b><span>UAT rounds with real end users</span></div>
         <div class="cs-metric"><b data-count="2" data-suffix=" mo">0</b><span>saved by using a third-party matching vendor</span></div>
+        <div class="cs-metric"><b>$3.0M</b><span>program budget after change request CR-01 (was a $1.4M ceiling)</span></div>
+        <div class="cs-metric"><b>99.94%</b><span>of Wave 1 accounts matched cleanly at cutover (61,038 loaded)</span></div>
+        <div class="cs-metric"><b data-count="38" data-suffix="%">0</b><span>fewer weekly billing calls from Wave 1 customers (580 to 360)</span></div>
+      </div>
+      <div class="cs-cols">
+        <div class="cs-col"><h4>Key calls</h4><ul><li>Defended four phased waves over a risky big-bang cutover using the triple constraint, and won a unanimous Steering Committee vote.</li><li>Told the sponsor the same day that profiling showed 24% duplication, not 14%, then built the change request that raised the budget to $3.0M and amended the contract.</li><li>Caught two defects in rehearsals (household linking and retired-rate-plan discounts) and ran both through change control before any customer was affected.</li><li>Ran cutover from a 143-step runbook with a tested rollback and a hard decision point; fixed a date-display issue on about 1,800 accounts within three days of go-live.</li></ul></div>
+        <div class="cs-col"><h4>What I'd do differently</h4><ul><li>Test the riskiest assumption first: trial the matching tool on all 340,000 records before setting the cost baseline.</li><li>Trace every reference table from the start, not only after a bug forces it.</li><li>Build test data from every source table and time zone from day one.</li></ul></div>
       </div>
       <p class="cs-highlight">Won unanimous approval for a <b>phased migration</b> over a risky big-bang cutover, caught serious data issues in mock migrations before any real customer was affected, brought real end users into UAT, and turned the go-live retrospective into permanent process changes.</p>
     </div>
@@ -967,7 +1198,7 @@
     <div class="cs-panel" id="cs-invoice">
       <div class="cs-panel-head">
         <h3>Invoice Processing Bot (RPA)</h3>
-        <span class="cs-role">IT Project Manager · Loblaw Companies Limited · Jan 2023 – Feb 2024</span>
+        <span class="cs-role">IT Project Manager · Loblaw Companies Limited · via Akom Infotech Ltd. · Jan 2023 – Feb 2024</span>
       </div>
       <div class="cs-method">Waterfall governed the scope-and-budget decision — Finance and the CFO needed to sign off on scoped RPA versus a full AI build before anything started. Agile sprints governed the pilot, letting fixes get reworked and re-tested inside the same cycle.</div>
       <div class="cs-timeline-mini">
@@ -976,24 +1207,33 @@
         <div class="cs-node"><span class="cs-date">Apr 2023</span><span class="cs-label">Scanned-invoice issue found</span></div>
         <div class="cs-node"><span class="cs-date">May 2023</span><span class="cs-label">Fix validated</span></div>
         <div class="cs-node"><span class="cs-date">Sep 2023</span><span class="cs-label">Go-live (phased)</span></div>
+        <div class="cs-node"><span class="cs-date">Feb 2024</span><span class="cs-label">Closed after the December peak, at about $291K</span></div>
       </div>
       <div class="cs-metrics">
         <div class="cs-metric"><b data-count="300" data-suffix="K">0</b><span>approved build vs. $900K+ alternative</span></div>
         <div class="cs-metric"><b data-count="12000" data-suffix="">0</b><span>invoices processed monthly</span></div>
-        <div class="cs-metric"><b data-count="5" data-suffix=" mo">0</b><span>time to go-live, vs. 12+ for full AI</span></div>
+        <div class="cs-metric"><b data-count="78" data-suffix="%">0</b><span>less manual keying time (about 1,200 to 270 hours a month)</span></div>
+        <div class="cs-metric"><b>150 → &lt;20</b><span>month-end entry errors, down from about 150 a month</span></div>
+        <div class="cs-metric"><b>$291K</b><span>final cost against the $300K budget</span></div>
+        <div class="cs-metric"><b data-count="8" data-suffix=" mo">0</b><span>to first go-live (full rollout in about 10), vs. 12+ just to build full AI</span></div>
       </div>
-      <p class="cs-highlight">Built a <b>data-backed case</b> that won a leaner $300K build over a $900K+ alternative, delivering in under five months.</p>
+      <div class="cs-cols">
+        <div class="cs-col"><h4>Key calls</h4><ul><li>Sat with the clerks and timed invoices myself (about six minutes each, 12,000 a month), so the business case rested on measured numbers.</li><li>Took the RPA-versus-AI comparison to the CFO on one page instead of arguing it in a workshop.</li><li>Rejected a first fix for scanned invoices because 2% of bad readings still got through, and added multi-field validation.</li><li>Held one supplier’s invoices for manual entry the same day duplicates appeared, then fixed the matching properly within a week. The bot could enter invoices but never approve payments.</li></ul></div>
+        <div class="cs-col"><h4>What I'd do differently</h4><ul><li>Collect real samples from every target supplier before the pilot.</li><li>Build cross-field checks into the first design, so the bot checks itself from day one.</li><li>Map who owns each outside relationship before planning.</li></ul></div>
+      </div>
+      <p class="cs-highlight">Built a <b>data-backed case</b> that won a leaner $300K build over a $900K+ alternative, with first go-live about eight months after kickoff, versus 12+ months just to build the AI option.</p>
     </div>
 
     <div class="cs-panel" id="cs-insurance">
       <div class="cs-panel-head">
         <h3>Insurance Policy Management Dashboard</h3>
-        <span class="cs-role">IT Project Manager · Punjab Insurance · Dec 2021 – Dec 2022</span>
+        <span class="cs-role">IT Project Manager · Punjab Insurance · via Akom Infotech Ltd. · Dec 2021 – Dec 2022</span>
       </div>
       <div class="cs-method">Waterfall governed initiation and scope — the hybrid auto-process/manual-review design needed steering committee approval upfront, since it touched the core platform workflow. Agile sprints governed build and UAT, folding agent feedback in quickly.</div>
       <div class="cs-timeline-mini">
         <div class="cs-node"><span class="cs-date">Jan 2022</span><span class="cs-label">Kickoff &amp; charter</span></div>
         <div class="cs-node"><span class="cs-date">Feb 18</span><span class="cs-label">Hybrid approach approved</span></div>
+        <div class="cs-node"><span class="cs-date">Apr 2022</span><span class="cs-label">Skeptical agents join a design working group</span></div>
         <div class="cs-node"><span class="cs-date">Jun 2022</span><span class="cs-label">Premium-calc defect found</span></div>
         <div class="cs-node"><span class="cs-date">Jul 2022</span><span class="cs-label">Fix validated</span></div>
         <div class="cs-node"><span class="cs-date">Oct 3</span><span class="cs-label">Go-live</span></div>
@@ -1001,7 +1241,15 @@
       <div class="cs-metrics">
         <div class="cs-metric"><b data-count="800" data-suffix="K">0</b><span>budget, delivered within it</span></div>
         <div class="cs-metric"><b data-count="8000" data-suffix="">0</b><span>policy-change requests monthly</span></div>
+        <div class="cs-metric"><b data-count="75" data-suffix="%">0</b><span>less manual handling time (about 3,300 to 830 hours a month)</span></div>
+        <div class="cs-metric"><b>3 min</b><span>per policy change, down from about 25 minutes</span></div>
+        <div class="cs-metric"><b data-count="60" data-suffix="%">0</b><span>of policy changes processed automatically</span></div>
+        <div class="cs-metric"><b data-count="0" data-suffix="">0</b><span>errors found by Compliance in a 400-change sample</span></div>
         <div class="cs-metric"><b data-count="3" data-suffix="">0</b><span>skeptical agents turned advocates</span></div>
+      </div>
+      <div class="cs-cols">
+        <div class="cs-col"><h4>Key calls</h4><ul><li>Designed around a batch-only platform: simple changes written in seconds, complex ones reviewed and applied in the overnight batch.</li><li>Licensed the vendor’s add-on module instead of building a connection, saving about three months.</li><li>Brought the loudest skeptics into a working group; three of them demonstrated the tool to their peers during UAT.</li><li>Rejected a premium fix that only worked for equal splits, protecting about 500 policies. Compliance owned the automation rules and joined every sprint review.</li></ul></div>
+        <div class="cs-col"><h4>What I'd do differently</h4><ul><li>Involve the users in the first week, not after there is something to show.</li><li>Build the edge-case test set during design.</li><li>Ask every vendor what they already sell before planning a build.</li></ul></div>
       </div>
       <p class="cs-highlight">Designed a <b>hybrid workaround</b> for a platform limitation and turned the most resistant frontline agents into advocates.</p>
     </div>
@@ -1009,12 +1257,13 @@
     <div class="cs-panel" id="cs-onboarding">
       <div class="cs-panel-head">
         <h3>AI Client Onboarding Automation</h3>
-        <span class="cs-role">Business Analyst → Project Manager · Wealthsimple</span>
+        <span class="cs-role">Business Analyst → Project Manager · Wealthsimple · via Akom Infotech Ltd.</span>
       </div>
       <div class="cs-method">Waterfall governed initiation and planning — the risk-tier framework had to be locked and signed off by Compliance before development started, since regulatory sign-off doesn't work well with "figure it out as we go." Agile sprints governed the build.</div>
       <div class="cs-timeline-mini">
+        <div class="cs-node"><span class="cs-date">Dec 2020</span><span class="cs-label">Volunteered and promoted from analyst to project manager</span></div>
         <div class="cs-node"><span class="cs-date">Jan 2021</span><span class="cs-label">Kickoff &amp; charter</span></div>
-        <div class="cs-node"><span class="cs-date">Feb 15</span><span class="cs-label">Risk-tier framework approved</span></div>
+        <div class="cs-node"><span class="cs-date">Feb 9</span><span class="cs-label">Risk-tier framework approved</span></div>
         <div class="cs-node"><span class="cs-date">Apr 9</span><span class="cs-label">Routing gap found</span></div>
         <div class="cs-node"><span class="cs-date">Apr 23</span><span class="cs-label">Fix validated</span></div>
         <div class="cs-node"><span class="cs-date">Sep 7</span><span class="cs-label">Go-live</span></div>
@@ -1023,6 +1272,14 @@
         <div class="cs-metric"><b data-count="650" data-suffix="K">0</b><span>project budget</span></div>
         <div class="cs-metric"><b data-count="5000" data-suffix="">0</b><span>applications reviewed monthly</span></div>
         <div class="cs-metric"><b data-count="10" data-suffix=" min">0</b><span>from 2–4 days, per applicant</span></div>
+        <div class="cs-metric"><b data-count="96" data-suffix="%">0</b><span>model match rate against human decisions (target 95%)</span></div>
+        <div class="cs-metric"><b data-count="70" data-suffix="%">0</b><span>of applications decided automatically in under ten minutes</span></div>
+        <div class="cs-metric"><b>$638K</b><span>final cost against the $650K budget</span></div>
+        <div class="cs-metric"><b data-count="0" data-suffix="">0</b><span>findings in the first internal compliance review</span></div>
+      </div>
+      <div class="cs-cols">
+        <div class="cs-col"><h4>Key calls</h4><ul><li>Volunteered to lead when the project manager went on leave, backed by a 90-day plan and weekly feedback, and met every milestone in it.</li><li>Settled the Product-versus-Compliance argument by putting 200 real applications on screen and designing risk tiers everyone signed before development.</li><li>Led a fully remote team through COVID-19 with core hours, written sign-offs and weekly one-to-ones.</li><li>Rejected a fix for joint applications that was correct but over-flagged, then reworked the confidence scoring ($22K from contingency).</li></ul></div>
+        <div class="cs-col"><h4>What I'd do differently</h4><ul><li>Stress-test edge cases such as joint applications early, not late in the build.</li><li>Collect real samples from every partner channel before go-live.</li><li>Push harder for findings I believe in. My audit-trail note sat on page nine for ten months.</li></ul></div>
       </div>
       <p class="cs-highlight">Aligned <b>Compliance, Product, and Risk</b> on a shared framework before development, avoiding rework later.</p>
     </div>
@@ -1443,21 +1700,22 @@
   }
 
   // ---- Timeline progress line + dot activation ----
-  var timeline = document.querySelector('.timeline');
-  var roles = Array.prototype.slice.call(document.querySelectorAll('.role'));
-  if(timeline){
+  var timelines = Array.prototype.slice.call(document.querySelectorAll('.timeline'));
+  if(timelines.length){
     var onTimelineScroll = function(){
-      var rect = timeline.getBoundingClientRect();
       var vh = window.innerHeight;
       var start = vh * 0.75;
-      var travelled = start - rect.top;
-      var pct = Math.max(0, Math.min(1, travelled / rect.height));
-      timeline.style.setProperty('--progress', (pct * 100) + '%');
-      var lineY = rect.top + rect.height * pct;
-      roles.forEach(function(r){
-        var rr = r.getBoundingClientRect();
-        if(rr.top <= lineY + 8) r.classList.add('lit');
-        else r.classList.remove('lit');
+      timelines.forEach(function(timeline){
+        var rect = timeline.getBoundingClientRect();
+        var travelled = start - rect.top;
+        var pct = Math.max(0, Math.min(1, travelled / rect.height));
+        timeline.style.setProperty('--progress', (pct * 100) + '%');
+        var lineY = rect.top + rect.height * pct;
+        Array.prototype.forEach.call(timeline.querySelectorAll('.role'), function(r){
+          var rr = r.getBoundingClientRect();
+          if(rr.top <= lineY + 8) r.classList.add('lit');
+          else r.classList.remove('lit');
+        });
       });
     };
     window.addEventListener('scroll', onTimelineScroll, {passive:true});
