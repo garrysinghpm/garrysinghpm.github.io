@@ -782,7 +782,7 @@
         <div class="status-tag"><span class="status-dot"></span>Open to IT Project Management &amp; Business Analysis roles</div>
         <h1>I turn messy business problems into shipped, working systems.</h1>
         <div class="role-rotator"><span id="role-text"></span><span class="cursor-blink"></span></div>
-        <p class="lede">Senior Project Manager based in Brampton, Ontario — ten years moving from technical support into requirements, delivery, and digital transformation work across fintech, insurance, retail, and telecom.</p>
+        <p class="lede">Senior Project Manager based in Brampton, Ontario — <span data-years="it" data-fmt="word">ten</span> years moving from technical support into requirements, delivery, and digital transformation work across fintech, insurance, retail, and telecom.</p>
         <div class="hero-meta">
           <span id="live-clock">Brampton, Ontario, Canada</span>
           <a href="mailto:garrysinghpm@gmail.com" id="hero-email">garrysinghpm@gmail.com</a>
@@ -801,8 +801,8 @@
       </div>
     </div>
     <div class="stats-strip">
-      <div class="stat"><b>10+ yrs</b><span>in IT — support through delivery</span></div>
-      <div class="stat"><b>5+ yrs</b><span>in project management</span></div>
+      <div class="stat"><b><span data-years="it" data-fmt="plus">10+</span> yrs</b><span>in IT — support through delivery</span></div>
+      <div class="stat"><b><span data-years="pm" data-fmt="plus">5+</span> yrs</b><span>in project management</span></div>
       <div class="stat"><b>PMP · CSM</b><span>certified practitioner</span></div>
       <div class="stat"><b>4</b><span>industries — fintech, insurance, retail, telecom</span></div>
     </div>
@@ -889,7 +889,7 @@
       <div class="rail">Career</div>
       <div>
         <h2>Where I've worked</h2>
-        <p class="section-intro">Ten years, seven roles, one throughline — moving progressively closer to owning delivery.</p>
+        <p class="section-intro"><span data-years="it" data-fmt="Word">Ten</span> years, seven roles, one throughline — moving progressively closer to owning delivery.</p>
       </div>
     </div>
 
@@ -1943,6 +1943,22 @@
       });
     });
   }
+})();
+</script>
+<script>
+/* Auto-updating years: IT since June 2016, project management since Dec 2020 */
+(function(){
+  var start={it:new Date(2016,5,1),pm:new Date(2020,11,1)};
+  var words=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+  var now=new Date();
+  document.querySelectorAll('[data-years]').forEach(function(el){
+    var d=start[el.getAttribute('data-years')];
+    var y=now.getFullYear()-d.getFullYear();
+    if(now.getMonth()<d.getMonth())y--;
+    if(y<1)return;
+    var f=el.getAttribute('data-fmt'),w=words[y]||String(y);
+    el.textContent=f==='plus'?y+'+':f==='Word'?w.charAt(0).toUpperCase()+w.slice(1):w;
+  });
 })();
 </script>
 </body>
